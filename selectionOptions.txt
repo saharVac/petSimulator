@@ -1,4 +1,4 @@
-Animal, happinessThresholdPercentage, defaultHappinessDecrementTimeMinutes, satiationThresholdPercentage, defaultSatiationDecrementTimeMinutes
+Animal, happinessThresholdPercentage, happinessDecrementTimeMinutes, satiationThresholdPercentage, satiationDecrementTimeMinutes
 Dog, 20, 20, 20, 20
 Cat, 10, 15, 10, 15
 Gerbil, 10, 30, 10, 20
