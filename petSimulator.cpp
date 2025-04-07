@@ -37,12 +37,14 @@ void quitProgram(Animal*);
 // @param pets Dynamic array of Animal structs.
 void actionMenu(Animal* pets) {
   string choice;
-  cout << "Welcome. Please input one of the following options:" << endl;
+  cout << "Please input one of the following options:" << endl;
   while (true) {
-    cout << "- Add Pet" << endl
-         << "- Remove Pet" << endl
-         << "- View Pets" << endl
-         << "- Quit" << endl;
+    cout << "- Add Pet (A)" << endl
+         << "- Remove Pet (R)" << endl
+         << "- View Pets (V)" << endl
+         << "- Quit (Q)" << endl
+         << endl 
+         << "Choice: ";
     getline(cin, choice);
 
     // Converts string to uppercase
@@ -66,11 +68,12 @@ void actionMenu(Animal* pets) {
 // @brief Adds a pet to the dynamic array.
 // @param pets Dynamic array of Animal structs.
 void addPet(Animal* pets) {
-  if (currentPets >= 10)
+  if (currentPets >= MAX_PETS)
     cout << "Pets at capacity! Please remove a pet first." << endl;
   else {
     pets[currentPets].name = "Pet #" + to_string(1 + currentPets);
-    // cout << pets[currentPets].name << endl;  //* Debug
+    // message to show user pet successfully added
+    cout << "Added " << pets[currentPets].name << "!" << endl << endl;
     currentPets++;
   }
 }
@@ -94,6 +97,7 @@ void viewPets(Animal* pets) {
   else {
     cout << "You have the following pets:" << endl;
     for (int i = 0; i < currentPets; i++) cout << pets[i].name << endl;
+    cout << endl;
   }
 }
 
@@ -101,6 +105,7 @@ void viewPets(Animal* pets) {
 // @param pets Dynamic array of Animal structs.
 void quitProgram(Animal* pets) {
   delete[] pets;
+  cout << endl << "Goodbye!" << endl;
   exit(1);
 }
 
@@ -110,6 +115,8 @@ int main() {
   for (int i = 0; i < MAX_PETS; i++) {
     pets[i].name = "null";
   }
+
+  cout << "Welcome to the pet simulator game!" << endl << endl;
 
   actionMenu(pets);
   // Game loop
