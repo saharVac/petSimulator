@@ -18,18 +18,88 @@ const int MAX_PETS = 10;            // Marks the maximum # of pets you can own.
 const int NUM_ANIMAL_OPTIONS = 15;  // Marks the total number of animal types.
 #pragma endregion
 
-#pragma region  // Function / Struct Declarations
-struct Animal {
-  string name;
-  string animalName;
-  int age;
-  int happinessPercentage;
-  int happinessThresholdPercentage;
-  int happinessDecrementTimeMinutes;
-  int satiationPercentage;
-  int satiationThresholdPercentage;
-  int satiationDecrementTimeMinutes;
+#pragma region  // Function / Class Declarations
+class Animal {
+  private:
+    string name;
+    string animalName;
+    int age;
+    int happinessPercentage;
+    int happinessThresholdPercentage;
+    int happinessDecrementTimeMinutes;
+    int satiationPercentage;
+    int satiationThresholdPercentage;
+    int satiationDecrementTimeMinutes;
+  public:
+
+    // default constructor
+    Animal() {
+      // TODO: rethink initial values.
+      name = "null";
+      animalName = "";
+      age = 0;
+      happinessPercentage = 0;
+      happinessThresholdPercentage = 0;
+      happinessDecrementTimeMinutes = 0;
+      satiationPercentage = 0;
+      satiationThresholdPercentage = 0;
+      satiationDecrementTimeMinutes = 0;
+    }
+
+    // parameterized constructor
+    Animal(string name, string animalName, int age,int happinessPercentage, int happinessThresholdPercentage, int happinessDecrementTimeMinutes, int satiationPercentage, int satiationThresholdPercentage, int satiationDecrementTimeMinutes) {
+      this->name = name;
+      this->animalName = animalName;
+      this->age = age;
+      this->happinessPercentage = happinessPercentage;
+      this->happinessThresholdPercentage = happinessThresholdPercentage;
+      this->happinessDecrementTimeMinutes = happinessDecrementTimeMinutes;
+      this->satiationPercentage = satiationPercentage;
+      this->satiationThresholdPercentage = satiationThresholdPercentage;
+      this->satiationDecrementTimeMinutes = satiationDecrementTimeMinutes;
+    }
+
+    // setters and getters - adding as needed
+
+    void setName(string name) { this->name = name; }
+    void setAnimalName(string animalName) { this->animalName = animalName; }
+    void setAge(int age) { this->age = age; }
+    void setHappinessPercentage(int happinessPercentage) {
+      this->happinessPercentage = happinessPercentage;
+    }
+    void setSatiationPercentage(int satiationPercentage) {
+      this->satiationPercentage = satiationPercentage;
+    }
+    void setHappinessThresholdPercentage(int happinessThresholdPercentage) {
+      this->happinessThresholdPercentage = happinessThresholdPercentage;
+    }
+    void setHappinessDecrementTimeMinutes(int happinessDecrementTimeMinutes) {
+      this->happinessDecrementTimeMinutes = happinessDecrementTimeMinutes;
+    }
+    void setSatiationThresholdPercentage(int satiationThresholdPercentage) {
+      this->satiationThresholdPercentage = satiationThresholdPercentage;
+    }
+    void setSatiationDecrementTimeMinutes(int satiationDecrementTimeMinutes) {
+      this->satiationDecrementTimeMinutes = satiationDecrementTimeMinutes;
+    }
+
+    string getName() { return name; }
+    string getAnimalName() { return animalName; }
+    int getHappinessThresholdPercentage() {
+      return happinessThresholdPercentage;
+    }
+    int getHappinessDecrementTimeMinutes() {
+      return happinessDecrementTimeMinutes;
+    }
+    int getSatiationThresholdPercentage() {
+      return satiationThresholdPercentage;
+    }
+    int getSatiationDecrementTimeMinutes() {
+      return satiationDecrementTimeMinutes;
+    }
+
 };
+
 Animal* readAnimalOptions();
 void actionMenu(Animal*, Animal*);
 void addPet(Animal*, Animal*);
@@ -58,20 +128,22 @@ Animal* readAnimalOptions() {
     stringstream ss(line);
     string token;
 
-    getline(ss, animalChoices[i].name, ',');
+    string name;
+    getline(ss, name, ',');
     ss >> ws;  // Discards any leading whitespace
+    animalChoices[i].setName(name);
 
     getline(ss, token, ',');
-    animalChoices[i].happinessThresholdPercentage = stoi(token);
+    animalChoices[i].setHappinessThresholdPercentage(stoi(token));
 
     getline(ss, token, ',');
-    animalChoices[i].happinessDecrementTimeMinutes = stoi(token);
+    animalChoices[i].setHappinessDecrementTimeMinutes(stoi(token));
 
     getline(ss, token, ',');
-    animalChoices[i].satiationThresholdPercentage = stoi(token);
+    animalChoices[i].setSatiationThresholdPercentage(stoi(token));
 
     getline(ss, token, ',');
-    animalChoices[i].satiationDecrementTimeMinutes = stoi(token);
+    animalChoices[i].setSatiationDecrementTimeMinutes(stoi(token));
   }
 
   file.close();
@@ -127,15 +199,15 @@ void addPet(Animal* pets, Animal* animalChoices) {
       cout << "Which animal would you like to adopt?" << endl;
       if (animalChoices != nullptr) {
         for (int i = 0; i < NUM_ANIMAL_OPTIONS; i++) {
-          cout << i + 1 << ". " << animalChoices[i].name << ":" << endl;
+          cout << i + 1 << ". " << animalChoices[i].getName() << ":" << endl;
           cout << "- Happiness Threshold - "
-               << animalChoices[i].happinessThresholdPercentage << endl;
+               << animalChoices[i].getHappinessThresholdPercentage() << endl;
           cout << "- Happiness Decrement Time (min/1%) - "
-               << animalChoices[i].happinessDecrementTimeMinutes << endl;
+               << animalChoices[i].getHappinessDecrementTimeMinutes() << endl;
           cout << "- Satiation Threshold - "
-               << animalChoices[i].satiationThresholdPercentage << endl;
+               << animalChoices[i].getSatiationThresholdPercentage() << endl;
           cout << "- Satiation Decrement Time (min/1%) - "
-               << animalChoices[i].satiationDecrementTimeMinutes << endl
+               << animalChoices[i].getSatiationDecrementTimeMinutes() << endl
                << endl;
         }
       }
@@ -154,32 +226,26 @@ void addPet(Animal* pets, Animal* animalChoices) {
     // Re-index choice (starts visual list at index 1).
     choice -= 1;
 
-    cout << animalChoices[choice].name
-         << " chosen! Please enter what you'd like to name it: ";
+    cout << animalChoices[choice].getName() << " chosen! Please enter what you'd like to name it: ";
     string petName;
     cin >> petName;
     cin.ignore();
 
+// ?? Do we need this, or would all these be set in the constructor ?? Basically call the constructor and store the object in the array?
 #pragma region  // TODO - Condense this in some way?
-    pets[currentPets].name = petName;
-    pets[currentPets].animalName = animalChoices[choice].name;
-    pets[currentPets].age = 0;
-    pets[currentPets].happinessPercentage = 80;
-    pets[currentPets].happinessDecrementTimeMinutes =
-        animalChoices[choice].happinessDecrementTimeMinutes;
-    pets[currentPets].happinessThresholdPercentage =
-        animalChoices[choice].happinessThresholdPercentage;
-    pets[currentPets].satiationPercentage = 80;
-    pets[currentPets].satiationThresholdPercentage =
-        animalChoices[choice].satiationThresholdPercentage;
-    pets[currentPets].satiationDecrementTimeMinutes =
-        animalChoices[choice].satiationDecrementTimeMinutes;
+    pets[currentPets].setName(petName);
+    pets[currentPets].setAnimalName(animalChoices[choice].getName());
+    pets[currentPets].setAge(0);
+    pets[currentPets].setHappinessPercentage(80);
+    pets[currentPets].setHappinessDecrementTimeMinutes(animalChoices[choice].getHappinessDecrementTimeMinutes());
+    pets[currentPets].setHappinessThresholdPercentage(animalChoices[choice].getHappinessThresholdPercentage());
+    pets[currentPets].setSatiationPercentage(80);
+    pets[currentPets].setSatiationThresholdPercentage(animalChoices[choice].getSatiationThresholdPercentage());
+    pets[currentPets].setSatiationDecrementTimeMinutes(animalChoices[choice].getSatiationDecrementTimeMinutes());
 #pragma endregion
 
     // Notify user that pet was successfully added.
-    cout << "Added " << pets[currentPets].animalName << " "
-         << pets[currentPets].name << "!" << endl
-         << endl;
+    cout << "Added " << pets[currentPets].getAnimalName() << " " << pets[currentPets].getName() << "!" << endl << endl;
     currentPets++;
   }
 }
@@ -192,7 +258,7 @@ void removePet(Animal* pets) {
     cout << "No pets remaining! Please add a pet first." << endl;
   else {
     currentPets--;
-    pets[currentPets].name = "null";
+    pets[currentPets].setName("null");
   }
 }
 
@@ -204,7 +270,7 @@ void viewPets(Animal* pets) {
   else {
     cout << "You have the following pets:" << endl;
     for (int i = 0; i < currentPets; i++)
-      cout << pets[i].animalName << " - " << pets[i].name << endl;
+      cout << pets[i].getAnimalName() << " - " << pets[i].getName() << endl;
     cout << endl;
   }
 }
@@ -225,7 +291,7 @@ int main() {
   Animal* pets = new Animal[MAX_PETS];
   Animal* animalChoices = readAnimalOptions();
   for (int i = 0; i < MAX_PETS; i++) {
-    pets[i].name = "null";
+    pets[i].setName("null");
   }
 
   // TODO - Give the game a name?
