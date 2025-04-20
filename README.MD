@@ -29,6 +29,44 @@ This project is a console-based pet simulation game that allows users to interac
 - [x] Updated all functions to work with class methods
 - [x] Properly initialized objects using constructor
 
+## Requirements / Rubric
+
+- Classes, inheritance, files:
+  - The program contains at least two meaningful inheritance relationships between classes that are
+  used during program execution
+  - The program contains at least four meaningful classes that are used during program execution
+  - The program is divided into multiple .cpp and .h files, with each class having separate declarations
+  and definitions, each stored in appropriate files for correct #include usage
+- [x] The program contains a text user interface (TUI) that is the main strategy for the user to see and interact with the program
+- [x] The program uses pointers and dynamic memory to store class objects rather than static allocation
+- [x] Each group member made at least five substantial commits to GitHub (5 points, individually)
+- [x] A milestone submission displaying basic functionality of your program
+- The program contains at least five operations that the user can select to repeatedly interact with the
+program in a meaningful way
+  - [x] Adopt
+  - [x] Remove
+  - [x] View Pets
+  - View Inventory
+  - Feed
+  - Play
+  - Resupply Food
+  - Save (pet array)
+- The program fulfills the requirements as set forth in the project proposal
+- Program contains sufficient comments
+- Program Executes Successfully
+- A group video presentation of your project and program
+- Get initial (rough) submission before further enhancements
+
+- 5 bonus points will be awarded to projects that are particularly creative, complex, or that go well above and
+beyond the originally proposed project.
+- 10 bonus points will be awarded for highly effective and informative posters that can explain the project in
+such a way that non-experts can understand what the problem the project is solving and how it solves the
+problem.
+
+### Final Checks
+- Final comments, function comments, etc.
+- Makes sure the program executes successfully
+
 ## PLANNED FEATURES
 
 ### Core Gameplay
@@ -70,3 +108,17 @@ This project is a console-based pet simulation game that allows users to interac
 - [ ] Add cancel functionality during pet selection
 - [ ] Improve input verification in do-while loop
 - [ ] Give the game a proper name
+
+## Individual To-Dos
+
+### Chris
+- Finalize README (add, revise, etc.)
+- Inheritance
+- Subclass Feed Functions
+  - Separate Foods (stored in .txt file)
+- Define View Inventory (and more?)
+
+### Sahar
+- Classes, Separate Files
+  - Ensure abstract base superclass (purely virtual Feed function)
+- Declare Feed, Play, View Inventory, Resupply on Superclass
