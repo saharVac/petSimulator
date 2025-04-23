@@ -10,6 +10,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include "Animal.h"
+#include "Carnivore.h"
+#include "Herbivore.h"
+#include "Omnivore.h"
+
 using namespace std;
 
 #pragma region  // Global Variables
@@ -18,101 +23,20 @@ const int MAX_PETS = 10;            // Marks the maximum # of pets you can own.
 const int NUM_ANIMAL_OPTIONS = 15;  // Marks the total number of animal types.
 #pragma endregion
 
-#pragma region  // Function / Class Declarations
-class Animal {
-  private:
-    string name;
-    string animalName;
-    int age;
-    int happinessPercentage;
-    int happinessThresholdPercentage;
-    int happinessDecrementTimeMinutes;
-    int satiationPercentage;
-    int satiationThresholdPercentage;
-    int satiationDecrementTimeMinutes;
-  public:
 
-    // default constructor
-    Animal() {
-      // TODO: rethink initial values.
-      name = "null";
-      animalName = "";
-      age = 0;
-      happinessPercentage = 0;
-      happinessThresholdPercentage = 0;
-      happinessDecrementTimeMinutes = 0;
-      satiationPercentage = 0;
-      satiationThresholdPercentage = 0;
-      satiationDecrementTimeMinutes = 0;
-    }
-
-    // parameterized constructor
-    Animal(string name, string animalName, int age,int happinessPercentage, int happinessThresholdPercentage, int happinessDecrementTimeMinutes, int satiationPercentage, int satiationThresholdPercentage, int satiationDecrementTimeMinutes) {
-      this->name = name;
-      this->animalName = animalName;
-      this->age = age;
-      this->happinessPercentage = happinessPercentage;
-      this->happinessThresholdPercentage = happinessThresholdPercentage;
-      this->happinessDecrementTimeMinutes = happinessDecrementTimeMinutes;
-      this->satiationPercentage = satiationPercentage;
-      this->satiationThresholdPercentage = satiationThresholdPercentage;
-      this->satiationDecrementTimeMinutes = satiationDecrementTimeMinutes;
-    }
-
-    // setters and getters - adding as needed
-
-    void setName(string name) { this->name = name; }
-    void setAnimalName(string animalName) { this->animalName = animalName; }
-    void setAge(int age) { this->age = age; }
-    void setHappinessPercentage(int happinessPercentage) {
-      this->happinessPercentage = happinessPercentage;
-    }
-    void setSatiationPercentage(int satiationPercentage) {
-      this->satiationPercentage = satiationPercentage;
-    }
-    void setHappinessThresholdPercentage(int happinessThresholdPercentage) {
-      this->happinessThresholdPercentage = happinessThresholdPercentage;
-    }
-    void setHappinessDecrementTimeMinutes(int happinessDecrementTimeMinutes) {
-      this->happinessDecrementTimeMinutes = happinessDecrementTimeMinutes;
-    }
-    void setSatiationThresholdPercentage(int satiationThresholdPercentage) {
-      this->satiationThresholdPercentage = satiationThresholdPercentage;
-    }
-    void setSatiationDecrementTimeMinutes(int satiationDecrementTimeMinutes) {
-      this->satiationDecrementTimeMinutes = satiationDecrementTimeMinutes;
-    }
-
-    string getName() { return name; }
-    string getAnimalName() { return animalName; }
-    int getHappinessThresholdPercentage() {
-      return happinessThresholdPercentage;
-    }
-    int getHappinessDecrementTimeMinutes() {
-      return happinessDecrementTimeMinutes;
-    }
-    int getSatiationThresholdPercentage() {
-      return satiationThresholdPercentage;
-    }
-    int getSatiationDecrementTimeMinutes() {
-      return satiationDecrementTimeMinutes;
-    }
-
-};
-
-Animal* readAnimalOptions();
-void actionMenu(Animal*, Animal*);
-void addPet(Animal*, Animal*);
-void removePet(Animal*);
-void viewPets(Animal*);
-void quitProgram(Animal*, Animal*);
+Animal** readAnimalOptions();
+void actionMenu(Animal**, Animal**);
+void addPet(Animal**, Animal**);
+void removePet(Animal**);
+void viewPets(Animal**);
+void quitProgram(Animal**, Animal**);
 #pragma endregion
 
 // @brief Reads in data from a text file to declare a dynamic array of Animal
 // struct options.
 // @return Dynamic array of Animal struct options.
-Animal* readAnimalOptions() {
-  Animal* animalChoices = new Animal[NUM_ANIMAL_OPTIONS];
+Animal** readAnimalOptions() {
+  Animal** animalChoices = new Animal*[NUM_ANIMAL_OPTIONS];
 
   // Protection if file doesn't exist.
   ifstream file("selectionOptions.txt");
@@ -125,25 +49,39 @@ Animal* readAnimalOptions() {
   getline(file, line);  // Skip header
 
   for (int i = 0; i < NUM_ANIMAL_OPTIONS && getline(file, line); i++) {
+
     stringstream ss(line);
     string token;
 
     string name;
     getline(ss, name, ',');
     ss >> ws;  // Discards any leading whitespace
-    animalChoices[i].setName(name);
 
     getline(ss, token, ',');
-    animalChoices[i].setHappinessThresholdPercentage(stoi(token));
+    int happinessPercentage = stoi(token);
 
     getline(ss, token, ',');
-    animalChoices[i].setHappinessDecrementTimeMinutes(stoi(token));
+    int happinessDecrementTimeMinutes = stoi(token);
 
     getline(ss, token, ',');
-    animalChoices[i].setSatiationThresholdPercentage(stoi(token));
+    int satiationPercentage = stoi(token);
 
     getline(ss, token, ',');
-    animalChoices[i].setSatiationDecrementTimeMinutes(stoi(token));
+    int satiationDecrementTimeMinutes = stoi(token);
+    
+    // extract last token (animal category)
+    getline(ss, token, ',');
+    string category = token;
+
+    if (category == "Carnivore"){
+      animalChoices[i] = new Carnivore(name, "Carnivore", 0, happinessPercentage, 50, happinessDecrementTimeMinutes, satiationPercentage, 50, 10);
+    } else if (category == "Herbivore") {
+      animalChoices[i] = new Herbivore(name, "Herbivore", 0, happinessPercentage, 50, happinessDecrementTimeMinutes, satiationPercentage, 50, 10);
+    } else if (category == "Omnivore") {
+      animalChoices[i] = new Omnivore(name, "Omnivore", 0, happinessPercentage, 50, happinessDecrementTimeMinutes, satiationPercentage, 50, 10);
+    } else {
+      cout << "Unknown animal category: '" << category << "'" << endl;
+    }
   }
 
   file.close();
@@ -153,7 +91,7 @@ Animal* readAnimalOptions() {
 // @brief Prompts the user with an action menu (add, remove, view...).
 // @param pets Dynamic array of Animal structs.
 // @param animalChoices Dynamic array of Animal struct options.
-void actionMenu(Animal* pets, Animal* animalChoices) {
+void actionMenu(Animal* pets[], Animal* animalChoices[]) {
   string choice;
   cout << "Please input one of the following options:" << endl;
   while (true) {
@@ -186,7 +124,7 @@ void actionMenu(Animal* pets, Animal* animalChoices) {
 // @brief Adds a user-chosen pet to the dynamic array.
 // @param pets Dynamic array of Animal structs.
 // @param animalChoices Dynamic array of Animal struct options.
-void addPet(Animal* pets, Animal* animalChoices) {
+void addPet(Animal* pets[], Animal* animalChoices[]) {
   if (currentPets >= MAX_PETS)
     cout << "Pets at capacity! Please remove a pet first." << endl;
   else {
@@ -199,15 +137,16 @@ void addPet(Animal* pets, Animal* animalChoices) {
       cout << "Which animal would you like to adopt?" << endl;
       if (animalChoices != nullptr) {
         for (int i = 0; i < NUM_ANIMAL_OPTIONS; i++) {
-          cout << i + 1 << ". " << animalChoices[i].getName() << ":" << endl;
+          Animal* currentAnimal = animalChoices[i];
+          cout << i + 1 << ". " << currentAnimal->getName() << ":" << endl;
           cout << "- Happiness Threshold - "
-               << animalChoices[i].getHappinessThresholdPercentage() << endl;
+               << currentAnimal->getHappinessThresholdPercentage() << endl;
           cout << "- Happiness Decrement Time (min/1%) - "
-               << animalChoices[i].getHappinessDecrementTimeMinutes() << endl;
+               << currentAnimal->getHappinessDecrementTimeMinutes() << endl;
           cout << "- Satiation Threshold - "
-               << animalChoices[i].getSatiationThresholdPercentage() << endl;
+               << currentAnimal->getSatiationThresholdPercentage() << endl;
           cout << "- Satiation Decrement Time (min/1%) - "
-               << animalChoices[i].getSatiationDecrementTimeMinutes() << endl
+               << currentAnimal->getSatiationDecrementTimeMinutes() << endl
                << endl;
         }
       }
@@ -226,51 +165,48 @@ void addPet(Animal* pets, Animal* animalChoices) {
     // Re-index choice (starts visual list at index 1).
     choice -= 1;
 
-    cout << animalChoices[choice].getName() << " chosen! Please enter what you'd like to name it: ";
+    cout << animalChoices[choice]->getName() << " chosen! Please enter what you'd like to name it: ";
     string petName;
     cin >> petName;
     cin.ignore();
 
-// ?? Do we need this, or would all these be set in the constructor ?? Basically call the constructor and store the object in the array?
-#pragma region  // TODO - Condense this in some way?
-    pets[currentPets].setName(petName);
-    pets[currentPets].setAnimalName(animalChoices[choice].getName());
-    pets[currentPets].setAge(0);
-    pets[currentPets].setHappinessPercentage(80);
-    pets[currentPets].setHappinessDecrementTimeMinutes(animalChoices[choice].getHappinessDecrementTimeMinutes());
-    pets[currentPets].setHappinessThresholdPercentage(animalChoices[choice].getHappinessThresholdPercentage());
-    pets[currentPets].setSatiationPercentage(80);
-    pets[currentPets].setSatiationThresholdPercentage(animalChoices[choice].getSatiationThresholdPercentage());
-    pets[currentPets].setSatiationDecrementTimeMinutes(animalChoices[choice].getSatiationDecrementTimeMinutes());
-#pragma endregion
+    if(dynamic_cast<Carnivore*>(animalChoices[choice]) != nullptr) {
+      pets[currentPets] = new Carnivore(petName, animalChoices[choice]->getAnimalName(), 0, 80, 50, animalChoices[choice]->getHappinessDecrementTimeMinutes(), 80, 50, animalChoices[choice]->getSatiationDecrementTimeMinutes());
+    } else if(dynamic_cast<Herbivore*>(animalChoices[choice]) != nullptr) {
+      pets[currentPets] = new Herbivore(petName, animalChoices[choice]->getAnimalName(), 0, 80, 50, animalChoices[choice]->getHappinessDecrementTimeMinutes(), 80, 50, animalChoices[choice]->getSatiationDecrementTimeMinutes());
+    } else if(dynamic_cast<Omnivore*>(animalChoices[choice]) != nullptr) {
+      pets[currentPets] = new Omnivore(petName, animalChoices[choice]->getAnimalName(), 0, 80, 50, animalChoices[choice]->getHappinessDecrementTimeMinutes(), 80, 50, animalChoices[choice]->getSatiationDecrementTimeMinutes());
+    }
 
     // Notify user that pet was successfully added.
-    cout << "Added " << pets[currentPets].getAnimalName() << " " << pets[currentPets].getName() << "!" << endl << endl;
+    cout << "Added " << pets[currentPets]->getAnimalName() << " " << pets[currentPets]->getName() << "!" << endl << endl;
     currentPets++;
   }
 }
 
 // @brief Removes a pet from the dynamic array.
 // @param pets Dynamic array of Animal structs.
-void removePet(Animal* pets) {
+void removePet(Animal* pets[]) {
   // TODO - Implement removal choice, like in addPet().
   if (currentPets <= 0)
     cout << "No pets remaining! Please add a pet first." << endl;
   else {
     currentPets--;
-    pets[currentPets].setName("null");
+    pets[currentPets]->setName("null");
   }
 }
 
 // @brief Prints the dynamic array.
 // @param pets Dynamic array of Animal structs.
-void viewPets(Animal* pets) {
+void viewPets(Animal* pets[]) {
   if (currentPets == 0)
     cout << "You have no pets!" << endl;
   else {
     cout << "You have the following pets:" << endl;
     for (int i = 0; i < currentPets; i++)
-      cout << pets[i].getAnimalName() << " - " << pets[i].getName() << endl;
+      cout << pets[i]->getAnimalName() << " - " << pets[i]->getName() << endl;
+      // Uncomment once ready to implement a Happiness and Hunger bar:
+      // cout << pets[i].getAnimalName() << " - " << pets[i].getName() << " Hunger: " << hungerBar << " Happiness: " << happinessBar << endl;
     cout << endl;
   }
 }
@@ -278,7 +214,7 @@ void viewPets(Animal* pets) {
 // @brief Deallocates the dynamic arrays and quits the program.
 // @param pets Dynamic array of Animal structs.
 // @param animalChoices Dynamic array of Animal struct options.
-void quitProgram(Animal* pets, Animal* petOptions) {
+void quitProgram(Animal* pets[], Animal* petOptions[]) {
   delete[] pets;
   delete[] petOptions;
   cout << endl << "Goodbye!" << endl;
@@ -288,10 +224,11 @@ void quitProgram(Animal* pets, Animal* petOptions) {
 int main() {
   // Dynamic arrays of animal structs.
   // Hold pet data and animal options respectively.
-  Animal* pets = new Animal[MAX_PETS];
-  Animal* animalChoices = readAnimalOptions();
+  Animal** pets = new Animal*[MAX_PETS];
+  Animal** animalChoices = readAnimalOptions();
+
   for (int i = 0; i < MAX_PETS; i++) {
-    pets[i].setName("null");
+    pets[i] = nullptr;
   }
 
   // TODO - Give the game a name?

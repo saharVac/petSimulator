@@ -119,6 +119,7 @@ problem.
 - Define View Inventory (and more?)
 
 ### Sahar
-- Classes, Separate Files
-  - Ensure abstract base superclass (purely virtual Feed function)
-- Declare Feed, Play, View Inventory, Resupply on Superclass
+- Classes, Separate Files- Done
+  - Ensure abstract base superclass (purely virtual Feed function) - Done
+- Declare Feed, Play: next up
+- functions for Viewing Inventory, and Resupply actions defined on main CPP file: next up
