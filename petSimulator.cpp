@@ -5,12 +5,6 @@
 //* Requirement #3: Basic output to the user in response to their interactions.
 //  Solution: Function to print the contents of the dynamic array.
 
-#include <cctype>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include "Animal.h"
 #include "Carnivore.h"
 #include "Herbivore.h"
 #include "Omnivore.h"
@@ -23,7 +17,7 @@ const int MAX_PETS = 10;            // Marks the maximum # of pets you can own.
 const int NUM_ANIMAL_OPTIONS = 15;  // Marks the total number of animal types.
 #pragma endregion
 
-
+#pragma region  // Function Declarations
 Animal** readAnimalOptions();
 void actionMenu(Animal**, Animal**);
 void addPet(Animal**, Animal**);
@@ -32,12 +26,10 @@ void viewPets(Animal**);
 void quitProgram(Animal**, Animal**);
 #pragma endregion
 
-// @brief Reads in data from a text file to declare a dynamic array of Animal
-// struct options.
-// @return Dynamic array of Animal struct options.
+// @brief Reads data from a text file to declare a dynamic array of Animals
+// object options.
+// @return Dynamic array of Animal object options.
 Animal** readAnimalOptions() {
-  Animal** animalChoices = new Animal*[NUM_ANIMAL_OPTIONS];
-
   // Protection if file doesn't exist.
   ifstream file("selectionOptions.txt");
   if (!file) {
@@ -45,53 +37,59 @@ Animal** readAnimalOptions() {
     return nullptr;
   }
 
+  Animal** petOptions = new Animal*[NUM_ANIMAL_OPTIONS];
+
   string line;
   getline(file, line);  // Skip header
 
   for (int i = 0; i < NUM_ANIMAL_OPTIONS && getline(file, line); i++) {
-
     stringstream ss(line);
     string token;
 
-    string name;
-    getline(ss, name, ',');
+    string species;
+    getline(ss, species, ',');
     ss >> ws;  // Discards any leading whitespace
 
     getline(ss, token, ',');
-    int happinessPercentage = stoi(token);
+    int funThreshold = stoi(token);
 
     getline(ss, token, ',');
-    int happinessDecrementTimeMinutes = stoi(token);
+    int funDecayTime = stoi(token);
 
     getline(ss, token, ',');
-    int satiationPercentage = stoi(token);
+    int foodThreshold = stoi(token);
 
     getline(ss, token, ',');
-    int satiationDecrementTimeMinutes = stoi(token);
-    
-    // extract last token (animal category)
-    getline(ss, token, ',');
-    string category = token;
+    int foodDecayTime = stoi(token);
 
-    if (category == "Carnivore"){
-      animalChoices[i] = new Carnivore(name, "Carnivore", 0, happinessPercentage, 50, happinessDecrementTimeMinutes, satiationPercentage, 50, 10);
-    } else if (category == "Herbivore") {
-      animalChoices[i] = new Herbivore(name, "Herbivore", 0, happinessPercentage, 50, happinessDecrementTimeMinutes, satiationPercentage, 50, 10);
-    } else if (category == "Omnivore") {
-      animalChoices[i] = new Omnivore(name, "Omnivore", 0, happinessPercentage, 50, happinessDecrementTimeMinutes, satiationPercentage, 50, 10);
+    getline(ss, token, ',');
+    string diet = token;
+
+    if (diet == "Carnivore") {
+      petOptions[i] =
+          new Carnivore("null", species, 0, 100, funThreshold, funDecayTime,
+                        100, foodThreshold, foodDecayTime, diet);
+    } else if (diet == "Herbivore") {
+      petOptions[i] =
+          new Herbivore("null", species, 0, 100, funThreshold, funDecayTime,
+                        100, foodThreshold, foodDecayTime, diet);
+    } else if (diet == "Omnivore") {
+      petOptions[i] =
+          new Omnivore("null", species, 0, 100, funThreshold, funDecayTime, 100,
+                       foodThreshold, foodDecayTime, diet);
     } else {
-      cout << "Unknown animal category: '" << category << "'" << endl;
+      cout << "Unknown animal category: '" << diet << "'" << endl;
     }
   }
 
   file.close();
-  return animalChoices;
+  return petOptions;
 }
 
 // @brief Prompts the user with an action menu (add, remove, view...).
-// @param pets Dynamic array of Animal structs.
-// @param animalChoices Dynamic array of Animal struct options.
-void actionMenu(Animal* pets[], Animal* animalChoices[]) {
+// @param pets Dynamic array of Animal objects.
+// @param petOptions Dynamic array of Animal object options.
+void actionMenu(Animal* pets[], Animal* petOptions[]) {
   string choice;
   cout << "Please input one of the following options:" << endl;
   while (true) {
@@ -108,13 +106,13 @@ void actionMenu(Animal* pets[], Animal* animalChoices[]) {
 
     // Action menu
     if (choice == "A" || choice == "ADD" || choice == "ADD PET")
-      addPet(pets, animalChoices);
+      addPet(pets, petOptions);
     else if (choice == "R" || choice == "REMOVE" || choice == "REMOVE PET")
       removePet(pets);
     else if (choice == "V" || choice == "VIEW" || choice == "VIEW PETS")
       viewPets(pets);
     else if (choice == "Q" || choice == "QUIT")
-      quitProgram(pets, animalChoices);
+      quitProgram(pets, petOptions);
     else
       cout << "Invalid Response. Please input one of the following options:"
            << endl;
@@ -122,9 +120,9 @@ void actionMenu(Animal* pets[], Animal* animalChoices[]) {
 }
 
 // @brief Adds a user-chosen pet to the dynamic array.
-// @param pets Dynamic array of Animal structs.
-// @param animalChoices Dynamic array of Animal struct options.
-void addPet(Animal* pets[], Animal* animalChoices[]) {
+// @param pets Dynamic array of Animal objects.
+// @param petOptions Dynamic array of Animal object options.
+void addPet(Animal* pets[], Animal* petOptions[]) {
   if (currentPets >= MAX_PETS)
     cout << "Pets at capacity! Please remove a pet first." << endl;
   else {
@@ -135,18 +133,18 @@ void addPet(Animal* pets[], Animal* animalChoices[]) {
     // TODO - Implement cancel functionality (press 0).
     do {
       cout << "Which animal would you like to adopt?" << endl;
-      if (animalChoices != nullptr) {
+      if (petOptions != nullptr) {
         for (int i = 0; i < NUM_ANIMAL_OPTIONS; i++) {
-          Animal* currentAnimal = animalChoices[i];
-          cout << i + 1 << ". " << currentAnimal->getName() << ":" << endl;
-          cout << "- Happiness Threshold - "
-               << currentAnimal->getHappinessThresholdPercentage() << endl;
+          Animal* currentAnimal = petOptions[i];
+          cout << i + 1 << ". " << currentAnimal->getSpecies() << ":" << endl;
+          cout << "- Happiness Threshold - " << currentAnimal->getFunThreshold()
+               << endl;
           cout << "- Happiness Decrement Time (min/1%) - "
-               << currentAnimal->getHappinessDecrementTimeMinutes() << endl;
+               << currentAnimal->getFunDecayTime() << endl;
           cout << "- Satiation Threshold - "
-               << currentAnimal->getSatiationThresholdPercentage() << endl;
+               << currentAnimal->getFoodThreshold() << endl;
           cout << "- Satiation Decrement Time (min/1%) - "
-               << currentAnimal->getSatiationDecrementTimeMinutes() << endl
+               << currentAnimal->getFoodDecayTime() << endl
                << endl;
         }
       }
@@ -165,27 +163,48 @@ void addPet(Animal* pets[], Animal* animalChoices[]) {
     // Re-index choice (starts visual list at index 1).
     choice -= 1;
 
-    cout << animalChoices[choice]->getName() << " chosen! Please enter what you'd like to name it: ";
+    cout << petOptions[choice]->getSpecies()
+         << " chosen! Please enter what you'd like to name it: ";
     string petName;
     cin >> petName;
     cin.ignore();
 
-    if(dynamic_cast<Carnivore*>(animalChoices[choice]) != nullptr) {
-      pets[currentPets] = new Carnivore(petName, animalChoices[choice]->getAnimalName(), 0, 80, 50, animalChoices[choice]->getHappinessDecrementTimeMinutes(), 80, 50, animalChoices[choice]->getSatiationDecrementTimeMinutes());
-    } else if(dynamic_cast<Herbivore*>(animalChoices[choice]) != nullptr) {
-      pets[currentPets] = new Herbivore(petName, animalChoices[choice]->getAnimalName(), 0, 80, 50, animalChoices[choice]->getHappinessDecrementTimeMinutes(), 80, 50, animalChoices[choice]->getSatiationDecrementTimeMinutes());
-    } else if(dynamic_cast<Omnivore*>(animalChoices[choice]) != nullptr) {
-      pets[currentPets] = new Omnivore(petName, animalChoices[choice]->getAnimalName(), 0, 80, 50, animalChoices[choice]->getHappinessDecrementTimeMinutes(), 80, 50, animalChoices[choice]->getSatiationDecrementTimeMinutes());
+    if (dynamic_cast<Carnivore*>(petOptions[choice]) != nullptr) {
+      pets[currentPets] =
+          new Carnivore(petName, petOptions[choice]->getSpecies(), 0, 80,
+                        petOptions[choice]->getFunThreshold(),
+                        petOptions[choice]->getFunDecayTime(), 80,
+                        petOptions[choice]->getFoodThreshold(),
+                        petOptions[choice]->getFoodDecayTime(),
+                        petOptions[choice]->getDiet());
+    } else if (dynamic_cast<Herbivore*>(petOptions[choice]) != nullptr) {
+      pets[currentPets] =
+          new Herbivore(petName, petOptions[choice]->getSpecies(), 0, 80,
+                        petOptions[choice]->getFunThreshold(),
+                        petOptions[choice]->getFunDecayTime(), 80,
+                        petOptions[choice]->getFoodThreshold(),
+                        petOptions[choice]->getFoodDecayTime(),
+                        petOptions[choice]->getDiet());
+    } else if (dynamic_cast<Omnivore*>(petOptions[choice]) != nullptr) {
+      pets[currentPets] =
+          new Omnivore(petName, petOptions[choice]->getSpecies(), 0, 80,
+                       petOptions[choice]->getFunThreshold(),
+                       petOptions[choice]->getFunDecayTime(), 80,
+                       petOptions[choice]->getFoodThreshold(),
+                       petOptions[choice]->getFoodDecayTime(),
+                       petOptions[choice]->getDiet());
     }
 
     // Notify user that pet was successfully added.
-    cout << "Added " << pets[currentPets]->getAnimalName() << " " << pets[currentPets]->getName() << "!" << endl << endl;
+    cout << "Added " << pets[currentPets]->getSpecies() << " "
+         << pets[currentPets]->getName() << "!" << endl
+         << endl;
     currentPets++;
   }
 }
 
 // @brief Removes a pet from the dynamic array.
-// @param pets Dynamic array of Animal structs.
+// @param pets Dynamic array of Animal objects.
 void removePet(Animal* pets[]) {
   // TODO - Implement removal choice, like in addPet().
   if (currentPets <= 0)
@@ -197,23 +216,24 @@ void removePet(Animal* pets[]) {
 }
 
 // @brief Prints the dynamic array.
-// @param pets Dynamic array of Animal structs.
+// @param pets Dynamic array of Animal objects.
 void viewPets(Animal* pets[]) {
   if (currentPets == 0)
     cout << "You have no pets!" << endl;
   else {
     cout << "You have the following pets:" << endl;
     for (int i = 0; i < currentPets; i++)
-      cout << pets[i]->getAnimalName() << " - " << pets[i]->getName() << endl;
-      // Uncomment once ready to implement a Happiness and Hunger bar:
-      // cout << pets[i].getAnimalName() << " - " << pets[i].getName() << " Hunger: " << hungerBar << " Happiness: " << happinessBar << endl;
+      cout << pets[i]->getSpecies() << " - " << pets[i]->getName() << endl;
+    // Uncomment once ready to implement a Happiness and Hunger bar:
+    // cout << pets[i].getAnimalName() << " - " << pets[i].getName() << "
+    // Hunger: " << hungerBar << " Happiness: " << happinessBar << endl;
     cout << endl;
   }
 }
 
 // @brief Deallocates the dynamic arrays and quits the program.
-// @param pets Dynamic array of Animal structs.
-// @param animalChoices Dynamic array of Animal struct options.
+// @param pets Dynamic array of Animal objects.
+// @param petOptions Dynamic array of Animal object options.
 void quitProgram(Animal* pets[], Animal* petOptions[]) {
   delete[] pets;
   delete[] petOptions;
@@ -225,7 +245,7 @@ int main() {
   // Dynamic arrays of animal structs.
   // Hold pet data and animal options respectively.
   Animal** pets = new Animal*[MAX_PETS];
-  Animal** animalChoices = readAnimalOptions();
+  Animal** petOptions = readAnimalOptions();
 
   for (int i = 0; i < MAX_PETS; i++) {
     pets[i] = nullptr;
@@ -234,7 +254,7 @@ int main() {
   // TODO - Give the game a name?
   cout << "Welcome to the pet simulator game!" << endl << endl;
 
-  actionMenu(pets, animalChoices);
+  actionMenu(pets, petOptions);
 
   return 0;
 }

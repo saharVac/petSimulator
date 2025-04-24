@@ -31,45 +31,47 @@ This project is a console-based pet simulation game that allows users to interac
 
 ## Requirements / Rubric
 
-- Classes, inheritance, files:
-  - The program contains at least two meaningful inheritance relationships between classes that are
+- [ ] Classes, inheritance, files:
+  - [ ] The program contains at least two meaningful inheritance relationships between classes that are
   used during program execution
-  - The program contains at least four meaningful classes that are used during program execution
-  - The program is divided into multiple .cpp and .h files, with each class having separate declarations
+  - [ ] The program contains at least four meaningful classes that are used during program execution
+  - [ ] The program is divided into multiple .cpp and .h files, with each class having separate declarations
   and definitions, each stored in appropriate files for correct #include usage
 - [x] The program contains a text user interface (TUI) that is the main strategy for the user to see and interact with the program
 - [x] The program uses pointers and dynamic memory to store class objects rather than static allocation
 - [x] Each group member made at least five substantial commits to GitHub (5 points, individually)
 - [x] A milestone submission displaying basic functionality of your program
-- The program contains at least five operations that the user can select to repeatedly interact with the
+- [ ] The program contains at least five operations that the user can select to repeatedly interact with the
 program in a meaningful way
   - [x] Adopt
   - [x] Remove
   - [x] View Pets
-  - View Inventory
-  - Feed
-  - Play
-  - Resupply Food
-  - Save (pet array)
-- The program fulfills the requirements as set forth in the project proposal
-- Program contains sufficient comments
-- Program Executes Successfully
-- A group video presentation of your project and program
-- Get initial (rough) submission before further enhancements
+  - [ ] View Inventory
+  - [ ] Feed
+  - [ ] Play
+  - [ ] Resupply Food
+  - [ ] Save (pet array)
+- [ ] The program fulfills the requirements as set forth in the project proposal
+- [ ] Program contains sufficient comments
+- [ ] Program Executes Successfully
+- [ ] A group video presentation of your project and program
+- [ ] Get initial (rough) submission before further enhancements
 
-- 5 bonus points will be awarded to projects that are particularly creative, complex, or that go well above and
-beyond the originally proposed project.
-- 10 bonus points will be awarded for highly effective and informative posters that can explain the project in
-such a way that non-experts can understand what the problem the project is solving and how it solves the
-problem.
+### Bonus Points
+
+- [ ] Project is particularly creative, complex, or goes well above and beyond the originally proposed project.
+- [ ] Highly effective and informative poster that can explain the project in such a way that non-experts can understand
+      the problem the project is solving and how it solves the problem.
 
 ### Final Checks
-- Final comments, function comments, etc.
-- Makes sure the program executes successfully
+
+- [ ] Final comments, function docs, etc.
+- [ ] Makes sure the program executes successfully
 
 ## PLANNED FEATURES
 
 ### Core Gameplay
+
 - [ ] Pet interaction menu for individual pets
 - [ ] Feed pet functionality
 - [ ] Play with pet functionality
@@ -77,22 +79,31 @@ problem.
 - [ ] Happiness and satiation decay mechanics
 
 ### Pet Management
+
 - [ ] Proper removal of specific pets by name/index
 - [ ] Cancel option during pet selection
 - [ ] Input validation for all user choices
 - [ ] More detailed pet status display
+  - [ ] Food & Happiness "bars"
+  - [ ] ASCII Pet Images
 
 ### Saving and Loading
+
+- [ ] Time-based update system
+  - Utilize \<ctime> for local time
+  - Potential exceptions if delta time is negative (I.e. Computer time moved backwards)
 - [ ] Save current pets to file
 - [ ] Load saved pets from file
 - [ ] Auto-save feature
 
 ### Advanced Features
+
 - [ ] Different pet behaviors based on animal type
 - [ ] Random events (pet gets sick, finds toy, etc.)
 - [ ] Pet evolution or aging stages
+  - [ ] Later-game / more expensive are pets harder to care for
 - [ ] Currency system for buying food/toys
-- [ ] Time-based events (day/night cycle)
+- [ ] Time-based events or details (day/night cycle)
 
 ## Technical Improvements Needed
 
@@ -103,6 +114,7 @@ problem.
 - [ ] Consider using STL containers (vector) instead of raw arrays
 
 ## Known Issues
+
 - [ ] Need to condense pet attribute assignment in addPet()
 - [ ] Implement removal choice in removePet()
 - [ ] Add cancel functionality during pet selection
@@ -112,14 +124,16 @@ problem.
 ## Individual To-Dos
 
 ### Chris
-- Finalize README (add, revise, etc.)
-- Inheritance
-- Subclass Feed Functions
-  - Separate Foods (stored in .txt file)
-- Define View Inventory (and more?)
+
+- [x] Finalize README (add, revise, etc.)
+- [x] Inheritance
+- [ ] Subclass Feed Functions
+  - [ ] Separate Foods (stored in .txt file)
+- [ ] Define View Inventory (and more?)
 
 ### Sahar
-- Classes, Separate Files- Done
-  - Ensure abstract base superclass (purely virtual Feed function) - Done
-- Declare Feed, Play: next up
-- functions for Viewing Inventory, and Resupply actions defined on main CPP file: next up
+
+- [x] Classes, Separate Files
+  - [x] Ensure abstract base superclass (purely virtual Feed function)
+- [ ] Declare Feed, Play: next up
+- [ ] Functions for Viewing Inventory and Resupply actions defined on main CPP file: next up

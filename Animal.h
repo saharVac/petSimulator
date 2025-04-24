@@ -1,102 +1,53 @@
 #ifndef ANIMAL_H
 #define ANIMAL_H
 
+#include <cctype>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <string>
-
 using namespace std;
 
 class Animal {
-    private:
-      string name;
-      string animalName;
-      int age;
-      int happinessPercentage;
-      int happinessThresholdPercentage;
-      int happinessDecrementTimeMinutes;
-      int satiationPercentage;
-      int satiationThresholdPercentage;
-      int satiationDecrementTimeMinutes;
-      string animalCategory; // carnivore, herbivore, omnivore
-    protected:
-      // void renderPercentageBar(int percentage, int threshold)
-    public:
-      // default constructor
-      Animal() {
-        // TODO: rethink initial values.
-        name = "null";
-        animalName = "";
-        age = 0;
-        happinessPercentage = 0;
-        happinessThresholdPercentage = 0;
-        happinessDecrementTimeMinutes = 0;
-        satiationPercentage = 0;
-        satiationThresholdPercentage = 0;
-        satiationDecrementTimeMinutes = 0;
-      }
-  
-      // parameterized constructor
-      Animal(string name, string animalName, int age,int happinessPercentage, int happinessThresholdPercentage, int happinessDecrementTimeMinutes, int satiationPercentage, int satiationThresholdPercentage, int satiationDecrementTimeMinutes) {
-        this->name = name;
-        this->animalName = animalName;
-        this->age = age;
-        this->happinessPercentage = happinessPercentage;
-        this->happinessThresholdPercentage = happinessThresholdPercentage;
-        this->happinessDecrementTimeMinutes = happinessDecrementTimeMinutes;
-        this->satiationPercentage = satiationPercentage;
-        this->satiationThresholdPercentage = satiationThresholdPercentage;
-        this->satiationDecrementTimeMinutes = satiationDecrementTimeMinutes;
-      }
-  
-      // setters and getters - adding as needed
-  
-      void setName(string name) { this->name = name; }
-      void setAnimalName(string animalName) { this->animalName = animalName; }
-      void setAge(int age) { this->age = age; }
-      void setHappinessPercentage(int happinessPercentage) {
-        this->happinessPercentage = happinessPercentage;
-      }
-      void setSatiationPercentage(int satiationPercentage) {
-        this->satiationPercentage = satiationPercentage;
-      }
-      void setHappinessThresholdPercentage(int happinessThresholdPercentage) {
-        this->happinessThresholdPercentage = happinessThresholdPercentage;
-      }
-      void setHappinessDecrementTimeMinutes(int happinessDecrementTimeMinutes) {
-        this->happinessDecrementTimeMinutes = happinessDecrementTimeMinutes;
-      }
-      void setSatiationThresholdPercentage(int satiationThresholdPercentage) {
-        this->satiationThresholdPercentage = satiationThresholdPercentage;
-      }
-      void setSatiationDecrementTimeMinutes(int satiationDecrementTimeMinutes) {
-        this->satiationDecrementTimeMinutes = satiationDecrementTimeMinutes;
-      }
-      void setAnimalCategory(string animalCategory) {
-        this->animalCategory = animalCategory;
-      }
-  
-      string getName() { return name; }
-      string getAnimalName() { return animalName; }
-      int getHappinessThresholdPercentage() {
-        return happinessThresholdPercentage;
-      }
-      int getHappinessDecrementTimeMinutes() {
-        return happinessDecrementTimeMinutes;
-      }
-      int getSatiationThresholdPercentage() {
-        return satiationThresholdPercentage;
-      }
-      int getSatiationDecrementTimeMinutes() {
-        return satiationDecrementTimeMinutes;
-      }
-      string getAnimalCategory() {
-        return animalCategory;
-      }
+ private:
+  string name;
+  string species;
+  int age;
+  int funValue;
+  int funThreshold;
+  int funDecayTime;  // minutes
+  int foodValue;
+  int foodThreshold;
+  int foodDecayTime;
+  string diet;  // Carnivore, Herbivore, Omnivore
+ protected:
+  // void renderPercentageBar(int percentage, int threshold)
+ public:
+  // default constructor
+  Animal();
+  // parameterized constructor
+  Animal(string, string, int, int, int, int, int, int, int, string);
 
-      // Interaction functions
-      virtual void feed() = 0;
-      virtual void play() = 0;
-  
-  
-  };
+  // setters and getters
+  void setName(string);
+  void setAge(int);
+  void setFunValue(int);
+  void setFoodValue(int);
+  void setDiet(string);
+
+  string getName();
+  string getSpecies();
+  int getFunValue();
+  int getFunThreshold();
+  int getFunDecayTime();
+  int getFoodValue();
+  int getFoodThreshold();
+  int getFoodDecayTime();
+  string getDiet();
+
+  // Interaction functions
+  virtual void feed() = 0;
+  virtual void play() = 0;
+};
 
 #endif

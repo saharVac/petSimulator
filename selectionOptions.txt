@@ -1,16 +1,16 @@
-Animal, happinessThresholdPercentage, happinessDecrementTimeMinutes, satiationThresholdPercentage, satiationDecrementTimeMinutes, animalCategory
-Dog,20, 20, 20, 20,Omnivore
-Cat,10, 15, 10, 15,Carnivore
-Gerbil,10, 30, 10, 20,Herbivore
-Elephant,20, 30, 40, 25,Herbivore
-Parrot,15, 25, 10, 20,Omnivore
-Rabbit,12, 18, 15, 22,Herbivore
-Turtle,5, 60, 5, 90,Herbivore
-Fox,18, 22, 25, 30,Carnivore
-Goldfish,5, 90, 5, 60,Herbivore
-Chinchilla,15, 20, 10, 18,Herbivore
-Hedgehog,10, 35, 15, 40,Omnivore
-Ferret,17, 28, 20, 25,Carnivore
-Panda,25, 40, 50, 30,Herbivore
-Kangaroo,20, 25, 35, 28,Herbivore
-Owl,8, 50, 10, 45,Carnivore
+species, funThreshold, funDecayTime, foodThreshold, foodDecayTime, diet
+Dog,20,20,20,20,Omnivore
+Cat,10,15,10,15,Carnivore
+Gerbil,10,30,10,20,Herbivore
+Elephant,20,30,40,25,Herbivore
+Parrot,15,25,10,20,Omnivore
+Rabbit,12,18,15,22,Herbivore
+Turtle,5,60,5,90,Herbivore
+Fox,18,22,25,30,Carnivore
+Goldfish,5,90,5,60,Herbivore
+Chinchilla,15,20,10,18,Herbivore
+Hedgehog,10,35,15,40,Omnivore
+Ferret,17,28,20,25,Carnivore
+Panda,25,40,50,30,Herbivore
+Kangaroo,20,25,35,28,Herbivore
+Owl,8,50,10,45,Carnivore
