@@ -1,0 +1,6 @@
+Inventory: carniFood herbiFood omniFood
+5,5,5
+Pets: ...
+// keeps track of pet names, species (for selectionOptions stats), and current stat values.
+Time: ...
+// keeps track of time since last session / save.

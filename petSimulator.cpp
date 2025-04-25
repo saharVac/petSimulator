@@ -18,13 +18,46 @@ const int NUM_ANIMAL_OPTIONS = 15;  // Marks the total number of animal types.
 #pragma endregion
 
 #pragma region  // Function Declarations
+void updateData(/*Animal**, Animal**, */ int*);
 Animal** readAnimalOptions();
-void actionMenu(Animal**, Animal**);
+void actionMenu(Animal**, Animal**, int[]);
 void addPet(Animal**, Animal**);
 void removePet(Animal**);
 void viewPets(Animal**);
+void feedPets(Animal**, int[]);
+void playPets(Animal**);
 void quitProgram(Animal**, Animal**);
 #pragma endregion
+
+// @brief Reads data from file to set pets, inventory, etc.
+// @param pets Dynamic array of Animal objects.
+// @param petOptions Dynamic array of Animal object options.
+// @param inventory Pointer to an array of ints.
+void updateData(/*Animal* pets[], Animal* petOptions[], */ int* inventory) {
+  // TODO - Updates values according to time passed between sessions.
+  // TODO - Return pets[]?
+
+  // Protection if file doesn't exist.
+  ifstream file("dataFile.txt");
+  if (!file) {
+    cerr << "Error opening selectionOptions.txt" << endl;
+  }
+
+  string line;
+  getline(file, line);  // Skip header
+  getline(file, line);
+  stringstream ss(line);
+  ss >> ws;  // Discards any leading whitespace
+
+  // Fill inventory array.
+  for (int i = 0; i < 3; i++) {
+    string token;
+    getline(ss, token, ',');
+    inventory[i] = stoi(token);
+  }
+
+  file.close();
+}
 
 // @brief Reads data from a text file to declare a dynamic array of Animals
 // object options.
@@ -89,13 +122,15 @@ Animal** readAnimalOptions() {
 // @brief Prompts the user with an action menu (add, remove, view...).
 // @param pets Dynamic array of Animal objects.
 // @param petOptions Dynamic array of Animal object options.
-void actionMenu(Animal* pets[], Animal* petOptions[]) {
+void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
   string choice;
   cout << "Please input one of the following options:" << endl;
   while (true) {
     cout << "- Add Pet (A)" << endl
          << "- Remove Pet (R)" << endl
          << "- View Pets (V)" << endl
+         << "- Feed Pet (F)" << endl
+         << "- Play with Pet (P)" << endl
          << "- Quit (Q)" << endl
          << endl
          << "Choice: ";
@@ -111,6 +146,10 @@ void actionMenu(Animal* pets[], Animal* petOptions[]) {
       removePet(pets);
     else if (choice == "V" || choice == "VIEW" || choice == "VIEW PETS")
       viewPets(pets);
+    else if (choice == "F" || choice == "FEED" || choice == "FEED PET")
+      feedPets(pets, inventory);
+    else if (choice == "P" || choice == "PLAY" || choice == "PLAY WITH PET")
+      playPets(pets);
     else if (choice == "Q" || choice == "QUIT")
       quitProgram(pets, petOptions);
     else
@@ -119,7 +158,7 @@ void actionMenu(Animal* pets[], Animal* petOptions[]) {
   }
 }
 
-// @brief Adds a user-chosen pet to the dynamic array.
+// @brief Adds a chosen pet to the dynamic array.
 // @param pets Dynamic array of Animal objects.
 // @param petOptions Dynamic array of Animal object options.
 void addPet(Animal* pets[], Animal* petOptions[]) {
@@ -219,7 +258,7 @@ void removePet(Animal* pets[]) {
 // @param pets Dynamic array of Animal objects.
 void viewPets(Animal* pets[]) {
   if (currentPets == 0)
-    cout << "You have no pets!" << endl;
+    cout << "You have no pets!" << endl << endl;
   else {
     cout << "You have the following pets:" << endl;
     for (int i = 0; i < currentPets; i++)
@@ -229,6 +268,39 @@ void viewPets(Animal* pets[]) {
     // Hunger: " << hungerBar << " Happiness: " << happinessBar << endl;
     cout << endl;
   }
+}
+
+// @brief Prints inventory, then attempts to feed a chosen pet.
+// @param pets Dynamic array of Animal objects.
+// @param inventory Array of food amounts.
+void feedPets(Animal* pets[], int inventory[]) {
+  // TODO - Check if you have any pets.
+  cout << "Here is your current inventory:" << endl;
+  cout << "> Meat: " << inventory[0] << endl;
+  cout << "> Veggies: " << inventory[1] << endl;
+  cout << "> Other: " << inventory[2] << endl;
+  // TODO - Ask which pet to feed. Check pet's diet.
+  // TODO - Call appropriate feed member function iff sufficient food.
+  // TODO - Feed member functions should subtract correct food type.
+  // TODO - Loop until a sentinel value is entered (0?).
+
+  // TODO - Omnivores can eat meat AND veggies? Remove 'other' food type?
+
+  // Temporary code.
+  cout << "Removing one of each item!" << endl << endl;
+  for (int i = 0; i < 3; i++) {
+    inventory[i]--;
+  }
+}
+
+// @brief Prints inventory, then attempts to feed a chosen pet.
+// @param pets Dynamic array of Animal objects.
+void playPets(Animal* pets[]) {
+  // TODO - This is temporary code.
+  for (int i = 0; i < 10; i++) {
+    cout << "Yippee! ";
+  }
+  cout << endl << endl;
 }
 
 // @brief Deallocates the dynamic arrays and quits the program.
@@ -247,14 +319,15 @@ int main() {
   Animal** pets = new Animal*[MAX_PETS];
   Animal** petOptions = readAnimalOptions();
 
-  for (int i = 0; i < MAX_PETS; i++) {
-    pets[i] = nullptr;
-  }
+  // Fills inventory from dataFile
+  int inventory[3];
+  updateData(inventory);
 
   // TODO - Give the game a name?
   cout << "Welcome to the pet simulator game!" << endl << endl;
 
-  actionMenu(pets, petOptions);
+  // TODO - Move actionMenu code to main? Make this the primary game loop?
+  actionMenu(pets, petOptions, inventory);
 
   return 0;
 }
