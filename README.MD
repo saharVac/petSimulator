@@ -128,8 +128,8 @@ program in a meaningful way
 - [x] Finalize README (add, revise, etc.)
 - [x] Inheritance
 - [ ] Subclass Feed Functions
-  - [ ] Separate Foods (stored in .txt file)
-- [ ] Define View Inventory (and more?)
+  - [x] Separate Foods (stored in .txt file)
+- [x] Define View Inventory (and more?)
 
 ### Sahar
 

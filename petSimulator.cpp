@@ -163,15 +163,14 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
 // @param petOptions Dynamic array of Animal object options.
 void addPet(Animal* pets[], Animal* petOptions[]) {
   if (currentPets >= MAX_PETS)
-    cout << "Pets at capacity! Please remove a pet first." << endl;
+    cout << "Pets at capacity! Please remove a pet first." << endl << endl;
   else {
     // Display animal options for adoption.
     int choice;
     bool takingInAnimalChoice = true;
-    // TODO - Remove do-while OR reimplement input verification inside.
-    // TODO - Implement cancel functionality (press 0).
     do {
-      cout << "Which animal would you like to adopt?" << endl;
+      cout << "Which animal would you like to adopt? Input 0 to cancel."
+           << endl;
       if (petOptions != nullptr) {
         for (int i = 0; i < NUM_ANIMAL_OPTIONS; i++) {
           Animal* currentAnimal = petOptions[i];
@@ -192,72 +191,77 @@ void addPet(Animal* pets[], Animal* petOptions[]) {
         cout << "Choice (number): ";
         cin >> choice;
 
-        if (choice >= 1 && choice <= NUM_ANIMAL_OPTIONS)
+        if (choice >= 0 && choice <= NUM_ANIMAL_OPTIONS)
           takingInAnimalChoice = false;
         else
           cout << choice << " is not an option! Try Again." << endl << endl;
       }
     } while (takingInAnimalChoice);
 
-    // Re-index choice (starts visual list at index 1).
-    choice -= 1;
+    // If 0, quit without adding a pet.
+    if (choice == 0) {
+      cin.ignore();
+    } else {
+      // Re-index choice (starts visual list at index 1).
+      choice -= 1;
 
-    cout << petOptions[choice]->getSpecies()
-         << " chosen! Please enter what you'd like to name it: ";
-    string petName;
-    cin >> petName;
-    cin.ignore();
+      cout << petOptions[choice]->getSpecies()
+           << " chosen! Please enter what you'd like to name it: ";
+      string petName;
+      cin >> petName;
+      cin.ignore();
 
-    if (dynamic_cast<Carnivore*>(petOptions[choice]) != nullptr) {
-      pets[currentPets] =
-          new Carnivore(petName, petOptions[choice]->getSpecies(), 0, 80,
-                        petOptions[choice]->getFunThreshold(),
-                        petOptions[choice]->getFunDecayTime(), 80,
-                        petOptions[choice]->getFoodThreshold(),
-                        petOptions[choice]->getFoodDecayTime(),
-                        petOptions[choice]->getDiet());
-    } else if (dynamic_cast<Herbivore*>(petOptions[choice]) != nullptr) {
-      pets[currentPets] =
-          new Herbivore(petName, petOptions[choice]->getSpecies(), 0, 80,
-                        petOptions[choice]->getFunThreshold(),
-                        petOptions[choice]->getFunDecayTime(), 80,
-                        petOptions[choice]->getFoodThreshold(),
-                        petOptions[choice]->getFoodDecayTime(),
-                        petOptions[choice]->getDiet());
-    } else if (dynamic_cast<Omnivore*>(petOptions[choice]) != nullptr) {
-      pets[currentPets] =
-          new Omnivore(petName, petOptions[choice]->getSpecies(), 0, 80,
-                       petOptions[choice]->getFunThreshold(),
-                       petOptions[choice]->getFunDecayTime(), 80,
-                       petOptions[choice]->getFoodThreshold(),
-                       petOptions[choice]->getFoodDecayTime(),
-                       petOptions[choice]->getDiet());
+      if (dynamic_cast<Carnivore*>(petOptions[choice]) != nullptr) {
+        pets[currentPets] =
+            new Carnivore(petName, petOptions[choice]->getSpecies(), 0, 80,
+                          petOptions[choice]->getFunThreshold(),
+                          petOptions[choice]->getFunDecayTime(), 80,
+                          petOptions[choice]->getFoodThreshold(),
+                          petOptions[choice]->getFoodDecayTime(),
+                          petOptions[choice]->getDiet());
+      } else if (dynamic_cast<Herbivore*>(petOptions[choice]) != nullptr) {
+        pets[currentPets] =
+            new Herbivore(petName, petOptions[choice]->getSpecies(), 0, 80,
+                          petOptions[choice]->getFunThreshold(),
+                          petOptions[choice]->getFunDecayTime(), 80,
+                          petOptions[choice]->getFoodThreshold(),
+                          petOptions[choice]->getFoodDecayTime(),
+                          petOptions[choice]->getDiet());
+      } else if (dynamic_cast<Omnivore*>(petOptions[choice]) != nullptr) {
+        pets[currentPets] =
+            new Omnivore(petName, petOptions[choice]->getSpecies(), 0, 80,
+                         petOptions[choice]->getFunThreshold(),
+                         petOptions[choice]->getFunDecayTime(), 80,
+                         petOptions[choice]->getFoodThreshold(),
+                         petOptions[choice]->getFoodDecayTime(),
+                         petOptions[choice]->getDiet());
+      }
+
+      // Notify user that pet was successfully added.
+      cout << "Added " << pets[currentPets]->getSpecies() << " "
+           << pets[currentPets]->getName() << "!" << endl
+           << endl;
+      currentPets++;
     }
-
-    // Notify user that pet was successfully added.
-    cout << "Added " << pets[currentPets]->getSpecies() << " "
-         << pets[currentPets]->getName() << "!" << endl
-         << endl;
-    currentPets++;
   }
 }
 
 // @brief Removes a pet from the dynamic array.
 // @param pets Dynamic array of Animal objects.
 void removePet(Animal* pets[]) {
-  // TODO - Implement removal choice, like in addPet().
   if (currentPets <= 0)
-    cout << "No pets remaining! Please add a pet first." << endl;
+    cout << "You have no pets! Please add a pet first." << endl << endl;
   else {
     currentPets--;
     pets[currentPets]->setName("null");
   }
+  // TODO - Implement removal choice, like in addPet().
 }
 
 // @brief Prints the dynamic array.
 // @param pets Dynamic array of Animal objects.
 void viewPets(Animal* pets[]) {
-  if (currentPets == 0)
+  if (currentPets <= 0)
     cout << "You have no pets!" << endl << endl;
   else {
     cout << "You have the following pets:" << endl;
@@ -274,33 +278,40 @@ void viewPets(Animal* pets[]) {
 // @param pets Dynamic array of Animal objects.
 // @param inventory Array of food amounts.
 void feedPets(Animal* pets[], int inventory[]) {
-  // TODO - Check if you have any pets.
-  cout << "Here is your current inventory:" << endl;
-  cout << "> Meat: " << inventory[0] << endl;
-  cout << "> Veggies: " << inventory[1] << endl;
-  cout << "> Other: " << inventory[2] << endl;
-  // TODO - Ask which pet to feed. Check pet's diet.
-  // TODO - Call appropriate feed member function iff sufficient food.
-  // TODO - Feed member functions should subtract correct food type.
-  // TODO - Loop until a sentinel value is entered (0?).
+  if (currentPets <= 0)
+    cout << "You have no pets to feed!" << endl << endl;
+  else {
+    cout << "Here is your current inventory:" << endl;
+    cout << "> Meat: " << inventory[0] << endl;
+    cout << "> Veggies: " << inventory[1] << endl;
+    cout << "> Other: " << inventory[2] << endl;
+    // TODO - Ask which pet to feed. Check pet's diet.
+    // TODO - Call appropriate feed member function iff sufficient food.
+    // TODO - Feed member functions should subtract correct food type.
+    // TODO - Loop until a sentinel value is entered (0?).
 
-  // TODO - Omnivores can eat meat AND veggies? Remove 'other' food type?
+    // TODO - Omnivores can eat meat AND veggies? Remove 'other' food type?
 
-  // Temporary code.
-  cout << "Removing one of each item!" << endl << endl;
-  for (int i = 0; i < 3; i++) {
-    inventory[i]--;
+    // Temporary code.
+    cout << "Removing one of each item!" << endl << endl;
+    for (int i = 0; i < 3; i++) {
+      inventory[i]--;
+    }
   }
 }
 
 // @brief Prints inventory, then attempts to feed a chosen pet.
 // @param pets Dynamic array of Animal objects.
 void playPets(Animal* pets[]) {
-  // TODO - This is temporary code.
-  for (int i = 0; i < 10; i++) {
-    cout << "Yippee! ";
+  if (currentPets <= 0)
+    cout << "You have no pets to play with!" << endl << endl;
+  else {
+    // TODO - This is temporary code.
+    for (int i = 0; i < 10; i++) {
+      cout << "Yippee! ";
+    }
+    cout << endl << endl;
   }
-  cout << endl << endl;
 }
 
 // @brief Deallocates the dynamic arrays and quits the program.
