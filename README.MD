@@ -2,6 +2,9 @@
 
 A C++ based virtual pet simulator game where users can adopt, manage, and care for multiple pets simultaneously.
 
+To compile, make sure needed txt files are sitting at the same directory as project files, and use
+```g++ petSimulator.cpp Animal.cpp Carnivore.cpp Herbivore.cpp Omnivore.cpp```
+
 ## Project Overview
 
 This project is a console-based pet simulation game that allows users to interact with virtual pets, manage their needs, and track their well-being over time. The game implements dynamic memory management and object-oriented programming principles.
@@ -135,5 +138,5 @@ program in a meaningful way
 
 - [x] Classes, Separate Files
   - [x] Ensure abstract base superclass (purely virtual Feed function)
-- [ ] Declare Feed, Play: next up
+- [x] Declare Feed, Play: next up - (declared as purely virtual funcs in Animal superclass)
 - [ ] Functions for Viewing Inventory and Resupply actions defined on main CPP file: next up

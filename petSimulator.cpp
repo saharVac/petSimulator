@@ -281,22 +281,66 @@ void feedPets(Animal* pets[], int inventory[]) {
   if (currentPets <= 0)
     cout << "You have no pets to feed!" << endl << endl;
   else {
-    cout << "Here is your current inventory:" << endl;
-    cout << "> Meat: " << inventory[0] << endl;
-    cout << "> Veggies: " << inventory[1] << endl;
-    cout << "> Other: " << inventory[2] << endl;
-    // TODO - Ask which pet to feed. Check pet's diet.
-    // TODO - Call appropriate feed member function iff sufficient food.
+
+    // Check if inventory is empty.
+    if (inventory[0] <= 0 && inventory[1] <= 0 && inventory[2] <= 0) {
+      cout << "You have no food to feed your pets!" << endl << endl;
+      return;
+    }
+    
+    // Ask which pet to feed
+    cout << "Which pet would you like to feed?" << endl;
+    for (int i = 0; i < currentPets; i++)
+      cout << i + 1 << ". " << pets[i]->getSpecies() << " - " << pets[i]->getName() << endl;
+    cout << "Choice (number): ";
+    int choice;
+    cin >> choice;
+    cin.ignore();
+    choice -= 1;  // Re-index choice (starts visual list at index 1).
+
+    // Check if choice is valid.
+    if (choice < 0 || choice >= currentPets) {
+      cout << "Invalid choice!" << endl;
+      return;
+    }
+
+    // TODO: implement check that proper food type is available.
+    // ----------------------------
+    // TEMPORARY CODE
+    
+    // Print inventory.
+    cout << "What would you like to feed " <<  pets[choice]->getName() << "?" << endl;
+    cout << "1. Meat: " << inventory[0] << endl;
+    cout << "2. Veggies: " << inventory[1] << endl;
+    cout << "3. Other: " << inventory[2] << endl;
+    // take in food choice
+    int foodChoice;
+    cout << "Choice (number): ";
+    cin >> foodChoice;
+    cin.ignore();
+    // check if food choice is valid
+    if (foodChoice < 1 || foodChoice > 3) {
+      cout << "Invalid choice!" << endl;
+      return;
+    }
+    // call d
+    // decrement inventory of that food type
+    inventory[foodChoice - 1]--;
+    // display new inventory of that food type
+    cout << "You have " << inventory[foodChoice - 1] << " of that food type left." << endl;
+
+    // END TEMPORARY CODE
+    // ----------------------------
+
+    // Call appropriate feed member function (feed function does the checking)
+    pets[choice]->feed();
+
+    
     // TODO - Feed member functions should subtract correct food type.
     // TODO - Loop until a sentinel value is entered (0?).
 
     // TODO - Omnivores can eat meat AND veggies? Remove 'other' food type?
 
-    // Temporary code.
-    cout << "Removing one of each item!" << endl << endl;
-    for (int i = 0; i < 3; i++) {
-      inventory[i]--;
-    }
   }
 }
 
