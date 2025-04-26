@@ -350,10 +350,22 @@ void playPets(Animal* pets[]) {
   if (currentPets <= 0)
     cout << "You have no pets to play with!" << endl << endl;
   else {
-    // TODO - This is temporary code.
-    for (int i = 0; i < 10; i++) {
-      cout << "Yippee! ";
+    // Ask which pet to play with
+    cout << "Which pet would you like to play with?" << endl;
+    for (int i = 0; i < currentPets; i++)
+      cout << i + 1 << ". " << pets[i]->getSpecies() << " - " << pets[i]->getName() << endl;
+    cout << "Choice (number): ";
+    int choice;
+    cin >> choice;
+    cin.ignore();
+    choice -= 1;  // Re-index choice (starts visual list at index 1).
+    // Check if choice is valid.
+    if (choice < 0 || choice >= currentPets) {
+      cout << "Invalid choice!" << endl;
+      return;
     }
+    // Call appropriate play member function (play function does the checking)
+    pets[choice]->play();
     cout << endl << endl;
   }
 }
