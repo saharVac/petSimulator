@@ -28,6 +28,7 @@ void feedPets(Animal**, int[]);
 void playPets(Animal**);
 void quitProgram(Animal**, Animal**);
 void viewInventory(int*);
+void resupplyInventory(int*);
 #pragma endregion
 
 // @brief Reads data from file to set pets, inventory, etc.
@@ -131,6 +132,7 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
          << "- Remove Pet (R)" << endl
          << "- View Pets (V)" << endl
          << "- View Inventory (I)" << endl
+         << "- Resupply Inventory (RI)" << endl
          << "- Feed Pet (F)" << endl
          << "- Play with Pet (P)" << endl
          << "- Quit (Q)" << endl
@@ -150,6 +152,8 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
       viewPets(pets);
     else if (choice == "I" || choice == "INVENTORY" || choice == "VIEW INVENTORY")
       viewInventory(inventory);
+    else if (choice == "RI" || choice == "RESUPPLY" || choice == "RESUPPLY INVENTORY")
+      resupplyInventory(inventory);
     else if (choice == "F" || choice == "FEED" || choice == "FEED PET")
       feedPets(pets, inventory);
     else if (choice == "P" || choice == "PLAY" || choice == "PLAY WITH PET")
@@ -255,6 +259,29 @@ void viewInventory(int inventory[]) {
   cout << "1. Meat: " << inventory[0] << endl;
   cout << "2. Veggies: " << inventory[1] << endl;
   cout << "3. Other: " << inventory[2] << endl;
+  cout << endl;
+}
+
+void resupplyInventory(int inventory[]) {
+
+  // prompt user to choose food type to resupply, letting them know how much of each they currently have
+  cout << "What would you like to resupply? (current counts:)" << endl;
+  cout << "1. Meat: " << inventory[0] << endl;
+  cout << "2. Veggies: " << inventory[1] << endl;
+  cout << "3. Other: " << inventory[2] << endl;
+  cout << "Choice (number): ";
+  int choice;
+  cin >> choice;
+  cin.ignore();
+  // check if choice is valid
+  if (choice < 1 || choice > 3) {
+    cout << "Invalid choice!" << endl;
+    return;
+  }
+  // resupply that food type with 5 units
+  inventory[choice - 1] += 5;
+  // display new inventory of that food type
+  cout << "You have " << inventory[choice - 1] << " of that food type now." << endl;
   cout << endl;
 }
 
