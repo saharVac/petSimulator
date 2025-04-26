@@ -27,6 +27,7 @@ void viewPets(Animal**);
 void feedPets(Animal**, int[]);
 void playPets(Animal**);
 void quitProgram(Animal**, Animal**);
+void viewInventory(int*);
 #pragma endregion
 
 // @brief Reads data from file to set pets, inventory, etc.
@@ -129,6 +130,7 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
     cout << "- Add Pet (A)" << endl
          << "- Remove Pet (R)" << endl
          << "- View Pets (V)" << endl
+         << "- View Inventory (I)" << endl
          << "- Feed Pet (F)" << endl
          << "- Play with Pet (P)" << endl
          << "- Quit (Q)" << endl
@@ -146,6 +148,8 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
       removePet(pets);
     else if (choice == "V" || choice == "VIEW" || choice == "VIEW PETS")
       viewPets(pets);
+    else if (choice == "I" || choice == "INVENTORY" || choice == "VIEW INVENTORY")
+      viewInventory(inventory);
     else if (choice == "F" || choice == "FEED" || choice == "FEED PET")
       feedPets(pets, inventory);
     else if (choice == "P" || choice == "PLAY" || choice == "PLAY WITH PET")
@@ -244,6 +248,14 @@ void addPet(Animal* pets[], Animal* petOptions[]) {
       currentPets++;
     }
   }
+}
+
+void viewInventory(int inventory[]) {
+  cout << "You have the following food in your inventory:" << endl;
+  cout << "1. Meat: " << inventory[0] << endl;
+  cout << "2. Veggies: " << inventory[1] << endl;
+  cout << "3. Other: " << inventory[2] << endl;
+  cout << endl;
 }
 
 // @brief Removes a pet from the dynamic array.
