@@ -130,7 +130,7 @@ program in a meaningful way
 
 - [x] Finalize README (add, revise, etc.)
 - [x] Inheritance
-- [ ] Subclass Feed Functions
+- [X] Subclass Feed Functions
   - [x] Separate Foods (stored in .txt file)
 - [x] Define View Inventory (and more?)
 
@@ -139,4 +139,4 @@ program in a meaningful way
 - [x] Classes, Separate Files
   - [x] Ensure abstract base superclass (purely virtual Feed function)
 - [x] Declare Feed, Play: next up - (declared as purely virtual funcs in Animal superclass)
-- [ ] Functions for Viewing Inventory and Resupply actions defined on main CPP file: next up
+- [X] Functions for Viewing Inventory and Resupply actions defined on main CPP file: next up
