@@ -34,31 +34,31 @@ This project is a console-based pet simulation game that allows users to interac
 
 ## Requirements / Rubric
 
-- [ ] Classes, inheritance, files:
-  - [ ] The program contains at least two meaningful inheritance relationships between classes that are
+- [x] Classes, inheritance, files:
+  - [x] The program contains at least two meaningful inheritance relationships between classes that are
   used during program execution
-  - [ ] The program contains at least four meaningful classes that are used during program execution
-  - [ ] The program is divided into multiple .cpp and .h files, with each class having separate declarations
+  - [x] The program contains at least four meaningful classes that are used during program execution
+  - [x] The program is divided into multiple .cpp and .h files, with each class having separate declarations
   and definitions, each stored in appropriate files for correct #include usage
 - [x] The program contains a text user interface (TUI) that is the main strategy for the user to see and interact with the program
 - [x] The program uses pointers and dynamic memory to store class objects rather than static allocation
 - [x] Each group member made at least five substantial commits to GitHub (5 points, individually)
 - [x] A milestone submission displaying basic functionality of your program
-- [ ] The program contains at least five operations that the user can select to repeatedly interact with the
+- [x] The program contains at least five operations that the user can select to repeatedly interact with the
 program in a meaningful way
   - [x] Adopt
   - [x] Remove
   - [x] View Pets
-  - [ ] View Inventory
-  - [ ] Feed
-  - [ ] Play
+  - [x] View Inventory
+  - [x] Feed
+  - [x] Play
   - [ ] Resupply Food
   - [ ] Save (pet array)
-- [ ] The program fulfills the requirements as set forth in the project proposal
-- [ ] Program contains sufficient comments
-- [ ] Program Executes Successfully
+- [x] The program fulfills the requirements as set forth in the project proposal
+- [x] Program contains sufficient comments
+- [x] Program Executes Successfully
 - [ ] A group video presentation of your project and program
-- [ ] Get initial (rough) submission before further enhancements
+- [x] Get initial (rough) submission before further enhancements
 
 ### Bonus Points
 

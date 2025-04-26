@@ -19,8 +19,10 @@ void Carnivore::feed() {
   // Otherwise, increase food value by 5.
   this->setFoodValue(this->getFoodValue() + 15);
   // displau new food value: petName + foodValue
-  cout << this->getName() << " is now at " << this->getFoodValue() << "\% food!" << endl;
+  cout << this->getName() << " is now at " << this->getFoodValue() << "\% food!"
+       << endl;
 }
+
 void Carnivore::play() {
   // If fun value already at max of value of 100, do nothing.
   if (this->getFunValue() >= 100) {
@@ -29,7 +31,7 @@ void Carnivore::play() {
   }
   // Otherwise, increase fun value by 5.
   this->setFunValue(this->getFunValue() + 15);
-  // displau new fun value: petName + funValue
-  cout << this->getName() << " is now at " << this->getFunValue() << "\% fun!" << endl;
-
+  // display new fun value: petName + funValue
+  cout << this->getName() << " is now at " << this->getFunValue() << "\% fun!"
+       << endl;
 }

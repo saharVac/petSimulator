@@ -124,6 +124,7 @@ Animal** readAnimalOptions() {
 // @brief Prompts the user with an action menu (add, remove, view...).
 // @param pets Dynamic array of Animal objects.
 // @param petOptions Dynamic array of Animal object options.
+// @param inventory Pointer to an array of ints.
 void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
   string choice;
   cout << "Please input one of the following options:" << endl;
@@ -150,9 +151,11 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
       removePet(pets);
     else if (choice == "V" || choice == "VIEW" || choice == "VIEW PETS")
       viewPets(pets);
-    else if (choice == "I" || choice == "INVENTORY" || choice == "VIEW INVENTORY")
+    else if (choice == "I" || choice == "INVENTORY" ||
+             choice == "VIEW INVENTORY")
       viewInventory(inventory);
-    else if (choice == "RI" || choice == "RESUPPLY" || choice == "RESUPPLY INVENTORY")
+    else if (choice == "RI" || choice == "RESUPPLY" ||
+             choice == "RESUPPLY INVENTORY")
       resupplyInventory(inventory);
     else if (choice == "F" || choice == "FEED" || choice == "FEED PET")
       feedPets(pets, inventory);
@@ -254,6 +257,8 @@ void addPet(Animal* pets[], Animal* petOptions[]) {
   }
 }
 
+// @brief Prints food inventory.
+// @param inventory Pointer to an array of ints.
 void viewInventory(int inventory[]) {
   cout << "You have the following food in your inventory:" << endl;
   cout << "1. Meat: " << inventory[0] << endl;
@@ -262,9 +267,11 @@ void viewInventory(int inventory[]) {
   cout << endl;
 }
 
+// @brief Resupplies a chosen food type.
+// @param inventory Pointer to an array of ints.
 void resupplyInventory(int inventory[]) {
-
-  // prompt user to choose food type to resupply, letting them know how much of each they currently have
+  // prompt user to choose food type to resupply, letting them know how much of
+  // each they currently have
   cout << "What would you like to resupply? (current counts:)" << endl;
   cout << "1. Meat: " << inventory[0] << endl;
   cout << "2. Veggies: " << inventory[1] << endl;
@@ -278,11 +285,13 @@ void resupplyInventory(int inventory[]) {
     cout << "Invalid choice!" << endl;
     return;
   }
-  // resupply that food type with 5 units
-  inventory[choice - 1] += 5;
-  // display new inventory of that food type
-  cout << "You have " << inventory[choice - 1] << " of that food type now." << endl;
-  cout << endl;
+
+  // Re-index choice (starts visual list at index 1).
+  choice -= 1;
+
+  inventory[choice] += 5;
+  cout << "You have " << inventory[choice] << " of that food type now." << endl
+       << endl;
 }
 
 // @brief Removes a pet from the dynamic array.
@@ -297,7 +306,7 @@ void removePet(Animal* pets[]) {
   // TODO - Implement removal choice, like in addPet().
 }
 
-// @brief Prints the dynamic array.
+// @brief Prints the dynamic array of pets.
 // @param pets Dynamic array of Animal objects.
 void viewPets(Animal* pets[]) {
   if (currentPets <= 0)
@@ -313,25 +322,25 @@ void viewPets(Animal* pets[]) {
   }
 }
 
-// @brief Prints inventory, then attempts to feed a chosen pet.
+// @brief Prints food inventory, then attempts to feed a chosen pet.
 // @param pets Dynamic array of Animal objects.
 // @param inventory Array of food amounts.
 void feedPets(Animal* pets[], int inventory[]) {
   if (currentPets <= 0)
     cout << "You have no pets to feed!" << endl << endl;
   else {
-
     // Check if inventory is empty.
     if (inventory[0] <= 0 && inventory[1] <= 0 && inventory[2] <= 0) {
       cout << "You have no food to feed your pets!" << endl << endl;
       return;
     }
-    
+
     // Ask which pet to feed
     cout << "Which pet would you like to feed?" << endl;
     for (int i = 0; i < currentPets; i++)
-      cout << i + 1 << ". " << pets[i]->getSpecies() << " - " << pets[i]->getName() << endl;
-    cout << "Choice (number): ";
+      cout << i + 1 << ". " << pets[i]->getSpecies() << " - "
+           << pets[i]->getName() << endl;
+    cout << endl << "Choice (number): ";
     int choice;
     cin >> choice;
     cin.ignore();
@@ -339,51 +348,52 @@ void feedPets(Animal* pets[], int inventory[]) {
 
     // Check if choice is valid.
     if (choice < 0 || choice >= currentPets) {
-      cout << "Invalid choice!" << endl;
+      cout << "Invalid choice!" << endl << endl;
       return;
     }
 
-    // TODO: implement check that proper food type is available.
+    // TODO - implement check that proper food type is available.
+    // TODO - Consequences / not able to feed incorrect food type?
     // ----------------------------
     // TEMPORARY CODE
-    
+
     // Print inventory.
-    cout << "What would you like to feed " <<  pets[choice]->getName() << "?" << endl;
+    cout << endl
+         << "What would you like to feed " << pets[choice]->getName() << "?"
+         << endl;
     cout << "1. Meat: " << inventory[0] << endl;
     cout << "2. Veggies: " << inventory[1] << endl;
     cout << "3. Other: " << inventory[2] << endl;
     // take in food choice
-    int foodChoice;
-    cout << "Choice (number): ";
-    cin >> foodChoice;
+    cout << endl << "Choice (number): ";
+    cin >> choice;
     cin.ignore();
     // check if food choice is valid
-    if (foodChoice < 1 || foodChoice > 3) {
+    if (choice < 1 || choice > 3) {
       cout << "Invalid choice!" << endl;
       return;
     }
-    // call d
-    // decrement inventory of that food type
-    inventory[foodChoice - 1]--;
-    // display new inventory of that food type
-    cout << "You have " << inventory[foodChoice - 1] << " of that food type left." << endl;
+    choice -= 1;  // Re-index choice (starts visual list at index 1).
+    // TODO - Error! Subtracts even if pet is full!
+    inventory[choice]--;
+    cout << "You have " << inventory[choice] << " of that food type left."
+         << endl;
 
     // END TEMPORARY CODE
     // ----------------------------
 
     // Call appropriate feed member function (feed function does the checking)
     pets[choice]->feed();
+    cout << endl;
 
-    
     // TODO - Feed member functions should subtract correct food type.
     // TODO - Loop until a sentinel value is entered (0?).
 
     // TODO - Omnivores can eat meat AND veggies? Remove 'other' food type?
-
   }
 }
 
-// @brief Prints inventory, then attempts to feed a chosen pet.
+// @brief Attempts to play with a chosen pet.
 // @param pets Dynamic array of Animal objects.
 void playPets(Animal* pets[]) {
   if (currentPets <= 0)
@@ -392,20 +402,22 @@ void playPets(Animal* pets[]) {
     // Ask which pet to play with
     cout << "Which pet would you like to play with?" << endl;
     for (int i = 0; i < currentPets; i++)
-      cout << i + 1 << ". " << pets[i]->getSpecies() << " - " << pets[i]->getName() << endl;
-    cout << "Choice (number): ";
+      cout << i + 1 << ". " << pets[i]->getSpecies() << " - "
+           << pets[i]->getName() << endl;
+    cout << endl << "Choice (number): ";
     int choice;
     cin >> choice;
     cin.ignore();
     choice -= 1;  // Re-index choice (starts visual list at index 1).
+
     // Check if choice is valid.
     if (choice < 0 || choice >= currentPets) {
-      cout << "Invalid choice!" << endl;
+      cout << "Invalid choice!" << endl << endl;
       return;
     }
     // Call appropriate play member function (play function does the checking)
     pets[choice]->play();
-    cout << endl << endl;
+    cout << endl;
   }
 }
 
