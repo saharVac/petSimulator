@@ -358,44 +358,35 @@ void feedPets(Animal* pets[], int inventory[]) {
       return;
     }
 
-    // TODO - implement check that proper food type is available.
-    // TODO - Consequences / not able to feed incorrect food type?
-    // ----------------------------
-    // TEMPORARY CODE
-
-    // Print inventory.
-    cout << endl
-         << "What would you like to feed " << pets[choice]->getName() << "?"
-         << endl;
-    cout << "1. Meat: " << inventory[0] << endl;
-    cout << "2. Veggies: " << inventory[1] << endl;
-    cout << "3. Other: " << inventory[2] << endl;
-    // take in food choice
-    cout << endl << "Choice (number): ";
-    cin >> choice;
-    cin.ignore();
-    // check if food choice is valid
-    if (choice < 1 || choice > 3) {
-      cout << "Invalid choice!" << endl;
-      return;
+    // check that proper food type is available, and if so subtract from inventory then promport user with
+    // how much food they have left
+    if (pets[choice]->getDiet() == "Carnivore") {
+      if (inventory[0] <= 0) {
+        cout << "You have no meat to feed your pet!" << endl;
+        return;
+      }
+      inventory[0] -= 1;
+      cout << "You have " << inventory[0] << " meat left." << endl;
+    } else if (pets[choice]->getDiet() == "Herbivore") {
+      if (inventory[1] <= 0) {
+        cout << "You have no veggies to feed your pet!" << endl;
+        return;
+      }
+      inventory[1] -= 1;
+      cout << "You have " << inventory[1] << " veggies left." << endl;
+    } else if (pets[choice]->getDiet() == "Omnivore") {
+      if (inventory[2] <= 0) {
+        cout << "You have no other food to feed your pet!" << endl;
+        return;
+      }
+      inventory[2] -= 1;
+      cout << "You have " << inventory[2] << " of that food type left." << endl;
     }
-    choice -= 1;  // Re-index choice (starts visual list at index 1).
-    // TODO - Error! Subtracts even if pet is full!
-    inventory[choice]--;
-    cout << "You have " << inventory[choice] << " of that food type left."
-         << endl;
-
-    // END TEMPORARY CODE
-    // ----------------------------
 
     // Call appropriate feed member function (feed function does the checking)
     pets[choice]->feed();
     cout << endl;
 
-    // TODO - Feed member functions should subtract correct food type.
-    // TODO - Loop until a sentinel value is entered (0?).
-
-    // TODO - Omnivores can eat meat AND veggies? Remove 'other' food type?
   }
 }
 
