@@ -352,6 +352,12 @@ void feedPets(Animal* pets[], int inventory[]) {
       return;
     }
 
+    // If pet's food value already at max of value of 100, do nothing.
+    if (pets[choice]->getFoodValue() >= 100) {
+      cout << pets[choice]->getName() << " is already at max food!" << endl;
+      return;
+    }
+
     // TODO - implement check that proper food type is available.
     // TODO - Consequences / not able to feed incorrect food type?
     // ----------------------------

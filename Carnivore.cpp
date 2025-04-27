@@ -11,11 +11,6 @@ Carnivore::Carnivore(string name, string species, int age, int funValue,
 
 // Interaction functions
 void Carnivore::feed() {
-  // If food value already at max of value of 100, do nothing.
-  if (this->getFoodValue() >= 100) {
-    cout << "Your pet is already at max food!" << endl;
-    return;
-  }
   // Otherwise, increase food value by 5.
   this->setFoodValue(this->getFoodValue() + 15);
   // displau new food value: petName + foodValue
