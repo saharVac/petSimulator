@@ -1,3 +1,12 @@
+/* Authors: Sahar Vacnich and Chris Alessandri
+Date: 04/28/25
+Description: A tamagotchi-esque pet simulator prototype.
+  Includes an action menu to adopt, feed, play,
+  and more with a selection of 15 pets. Cow included!
+I pledge my honor that I have abided by the Stevens Honor System.
+  Chris Alessandri, Sahar Vacnich
+*/
+
 #include "Carnivore.h"
 #include "Herbivore.h"
 #include "Omnivore.h"
