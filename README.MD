@@ -68,24 +68,25 @@ program in a meaningful way
 
 ### Final Checks
 
-- [ ] Final comments, function docs, etc.
-- [ ] Makes sure the program executes successfully
+- [x] Final comments, function docs, etc.
+- [x] Makes sure the program executes successfully
 
 ## PLANNED FEATURES
 
 ### Core Gameplay
 
 - [ ] Pet interaction menu for individual pets
-- [ ] Feed pet functionality
-- [ ] Play with pet functionality
+- [x] Feed pet functionality
+- [x] Play with pet functionality
 - [ ] Pet aging system
 - [ ] Happiness and satiation decay mechanics
 
 ### Pet Management
 
 - [ ] Proper removal of specific pets by name/index
-- [ ] Cancel option during pet selection
-- [ ] Input validation for all user choices
+- [x] Cancel option during pet adoption
+- [ ] Cancel option during pet removal
+- [x] Input validation for all user choices
 - [ ] More detailed pet status display
   - [ ] Food & Happiness "bars"
   - [ ] ASCII Pet Images
@@ -110,7 +111,7 @@ program in a meaningful way
 
 ## Technical Improvements Needed
 
-- [ ] Memory leak prevention for dynamic arrays
+- [x] Memory leak prevention for dynamic arrays
 - [ ] Error handling improvements
 - [ ] Implement proper exception handling
 - [ ] Add unit tests for key functionality
@@ -118,11 +119,12 @@ program in a meaningful way
 
 ## Known Issues
 
-- [ ] Need to condense pet attribute assignment in addPet()
+- [x] Need to condense pet attribute assignment in addPet()
 - [ ] Implement removal choice in removePet()
-- [ ] Add cancel functionality during pet selection
+- [x] Add cancel functionality during pet adoption
+- [ ] Add cancel functionality during pet removal
 - [ ] Improve input verification in do-while loop
-- [ ] Give the game a proper name
+- [x] Give the game a proper name
 
 ## Individual To-Dos
 
@@ -130,7 +132,7 @@ program in a meaningful way
 
 - [x] Finalize README (add, revise, etc.)
 - [x] Inheritance
-- [X] Subclass Feed Functions
+- [x] Subclass Feed Functions
   - [x] Separate Foods (stored in .txt file)
 - [x] Define View Inventory (and more?)
 
@@ -138,5 +140,5 @@ program in a meaningful way
 
 - [x] Classes, Separate Files
   - [x] Ensure abstract base superclass (purely virtual Feed function)
-- [x] Declare Feed, Play: next up - (declared as purely virtual funcs in Animal superclass)
-- [X] Functions for Viewing Inventory and Resupply actions defined on main CPP file: next up
+- [x] Declare Feed, Play - (declared as purely virtual funcs in Animal superclass)
+- [x] Functions for Viewing Inventory and Resupply actions defined on main CPP file

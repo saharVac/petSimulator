@@ -2,7 +2,7 @@ species, funThreshold, funDecayTime, foodThreshold, foodDecayTime, diet
 Dog,20,20,20,20,Omnivore
 Cat,10,15,10,15,Carnivore
 Gerbil,10,30,10,20,Herbivore
-Elephant,20,30,40,25,Herbivore
+Cow,20,30,40,25,Herbivore
 Parrot,15,25,10,20,Omnivore
 Rabbit,12,18,15,22,Herbivore
 Turtle,5,60,5,90,Herbivore

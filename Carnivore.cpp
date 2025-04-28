@@ -1,5 +1,8 @@
 #include "Carnivore.h"
 
+const int FOODPOWER = 15;
+const int FUNPOWER = 15;
+
 // default constructor
 Carnivore::Carnivore() : Animal() { this->setDiet("Carnivore"); }
 // parameterized constructor
@@ -11,8 +14,9 @@ Carnivore::Carnivore(string name, string species, int age, int funValue,
 
 // Interaction functions
 void Carnivore::feed() {
-  // Otherwise, increase food value by 5.
-  this->setFoodValue(this->getFoodValue() + 15);
+  // Otherwise, increase food value by FOODPOWER.
+  this->setFoodValue(this->getFoodValue() + FOODPOWER);
+  if (this->getFoodValue() > 100) this->setFoodValue(100);
   // displau new food value: petName + foodValue
   cout << this->getName() << " is now at " << this->getFoodValue() << "\% food!"
        << endl;
@@ -24,8 +28,9 @@ void Carnivore::play() {
     cout << "Your pet is already at max fun!" << endl;
     return;
   }
-  // Otherwise, increase fun value by 5.
-  this->setFunValue(this->getFunValue() + 15);
+  // Otherwise, increase fun value by FUNPOWER.
+  this->setFunValue(this->getFunValue() + FUNPOWER);
+  if (this->getFunValue() > 100) this->setFunValue(100);
   // display new fun value: petName + funValue
   cout << this->getName() << " is now at " << this->getFunValue() << "\% fun!"
        << endl;

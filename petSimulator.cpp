@@ -1,15 +1,6 @@
-//* Requirement #1: Read in and store your data in a meaningful way.
-//  Solution: Defining and using a dynamic array of animal structs.
-//* Requirement #2: Provide interactions for the user that utilizes the data.
-//  Solution: Functions to add / remove pets from the dynamic array.
-//* Requirement #3: Basic output to the user in response to their interactions.
-//  Solution: Function to print the contents of the dynamic array.
-
 #include "Carnivore.h"
 #include "Herbivore.h"
 #include "Omnivore.h"
-
-using namespace std;
 
 #pragma region  // Global Variables
 int currentPets = 0;
@@ -132,7 +123,7 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
     cout << "- Add Pet (A)" << endl
          << "- Remove Pet (R)" << endl
          << "- View Pets (V)" << endl
-         << "- View Inventory (I)" << endl
+         << "- Check Inventory (I)" << endl
          << "- Resupply Inventory (RI)" << endl
          << "- Feed Pet (F)" << endl
          << "- Play with Pet (P)" << endl
@@ -152,7 +143,7 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
     else if (choice == "V" || choice == "VIEW" || choice == "VIEW PETS")
       viewPets(pets);
     else if (choice == "I" || choice == "INVENTORY" ||
-             choice == "VIEW INVENTORY")
+             choice == "CHECK INVENTORY")
       viewInventory(inventory);
     else if (choice == "RI" || choice == "RESUPPLY" ||
              choice == "RESUPPLY INVENTORY")
@@ -213,8 +204,7 @@ void addPet(Animal* pets[], Animal* petOptions[]) {
     if (choice == 0) {
       cin.ignore();
     } else {
-      // Re-index choice (starts visual list at index 1).
-      choice -= 1;
+      choice -= 1;  // Re-index choice (starts visual list at index 1).
 
       cout << petOptions[choice]->getSpecies()
            << " chosen! Please enter what you'd like to name it: ";
@@ -276,18 +266,16 @@ void resupplyInventory(int inventory[]) {
   cout << "1. Meat: " << inventory[0] << endl;
   cout << "2. Veggies: " << inventory[1] << endl;
   cout << "3. Other: " << inventory[2] << endl;
-  cout << "Choice (number): ";
+  cout << endl << "Choice (number): ";
   int choice;
   cin >> choice;
   cin.ignore();
   // check if choice is valid
   if (choice < 1 || choice > 3) {
-    cout << "Invalid choice!" << endl;
+    cout << "Invalid choice!" << endl << endl;
     return;
   }
-
-  // Re-index choice (starts visual list at index 1).
-  choice -= 1;
+  choice -= 1;  // Re-index choice (starts visual list at index 1).
 
   inventory[choice] += 5;
   cout << "You have " << inventory[choice] << " of that food type now." << endl
@@ -331,7 +319,7 @@ void feedPets(Animal* pets[], int inventory[]) {
   else {
     // Check if inventory is empty.
     if (inventory[0] <= 0 && inventory[1] <= 0 && inventory[2] <= 0) {
-      cout << "You have no food to feed your pets!" << endl << endl;
+      cout << "You have no food for your pets!" << endl << endl;
       return;
     }
 
@@ -351,42 +339,41 @@ void feedPets(Animal* pets[], int inventory[]) {
       cout << "Invalid choice!" << endl << endl;
       return;
     }
-
     // If pet's food value already at max of value of 100, do nothing.
     if (pets[choice]->getFoodValue() >= 100) {
-      cout << pets[choice]->getName() << " is already at max food!" << endl;
+      cout << pets[choice]->getName() << " is already at max food!" << endl
+           << endl;
       return;
     }
 
-    // check that proper food type is available, and if so subtract from inventory then promport user with
-    // how much food they have left
+    // Check that proper food type is available. If so, subtract from
+    // inventory then inform user how much of this food they have left.
     if (pets[choice]->getDiet() == "Carnivore") {
       if (inventory[0] <= 0) {
-        cout << "You have no meat to feed your pet!" << endl;
+        cout << "You have no meat to feed your pet!" << endl << endl;
         return;
       }
       inventory[0] -= 1;
       cout << "You have " << inventory[0] << " meat left." << endl;
     } else if (pets[choice]->getDiet() == "Herbivore") {
       if (inventory[1] <= 0) {
-        cout << "You have no veggies to feed your pet!" << endl;
+        cout << "You have no veggies to feed your pet!" << endl << endl;
         return;
       }
       inventory[1] -= 1;
       cout << "You have " << inventory[1] << " veggies left." << endl;
     } else if (pets[choice]->getDiet() == "Omnivore") {
       if (inventory[2] <= 0) {
-        cout << "You have no other food to feed your pet!" << endl;
+        cout << "You have no other food to feed your pet!" << endl << endl;
         return;
       }
       inventory[2] -= 1;
-      cout << "You have " << inventory[2] << " of that food type left." << endl;
+      cout << "You have " << inventory[2] << " other food left." << endl;
     }
 
     // Call appropriate feed member function (feed function does the checking)
     pets[choice]->feed();
     cout << endl;
-
   }
 }
 
@@ -438,8 +425,7 @@ int main() {
   int inventory[3];
   updateData(inventory);
 
-  // TODO - Give the game a name?
-  cout << "Welcome to the pet simulator game!" << endl << endl;
+  cout << "Welcome to Sahar and Chris' pet simulator!" << endl << endl;
 
   // TODO - Move actionMenu code to main? Make this the primary game loop?
   actionMenu(pets, petOptions, inventory);
