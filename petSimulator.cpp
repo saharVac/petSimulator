@@ -18,7 +18,7 @@ const int NUM_ANIMAL_OPTIONS = 15;  // Marks the total number of animal types.
 #pragma endregion
 
 #pragma region  // Function Declarations
-void updateData(/*Animal**, Animal**, */ int*);
+void loadData(Animal**, Animal**, int*);
 Animal** readAnimalOptions();
 void actionMenu(Animal**, Animal**, int[]);
 void addPet(Animal**, Animal**);
@@ -35,10 +35,7 @@ void resupplyInventory(int*);
 // @param pets Dynamic array of Animal objects.
 // @param petOptions Dynamic array of Animal object options.
 // @param inventory Pointer to an array of ints.
-void updateData(/*Animal* pets[], Animal* petOptions[], */ int* inventory) {
-  // TODO - Updates values according to time passed between sessions.
-  // TODO - Return pets[]?
-
+void loadData(Animal* pets[], Animal* petOptions[], int* inventory) {
   // Protection if file doesn't exist.
   ifstream file("dataFile.txt");
   if (!file) {
@@ -56,6 +53,40 @@ void updateData(/*Animal* pets[], Animal* petOptions[], */ int* inventory) {
     string token;
     getline(ss, token, ',');
     inventory[i] = stoi(token);
+  }
+
+  getline(file, line);  // Skip header
+  getline(file, line);
+
+  // TODO - Time stuff
+
+  getline(file, line);  // Skip header
+  int counter = 0;
+
+  // Load pets.
+  while (!file.eof()) {
+    getline(file, line);
+    stringstream ss(line);
+    ss >> ws;  // Discards any leading whitespace
+    string token;
+
+    getline(ss, token, ',');  // Pet Type
+    pets[counter] = petOptions[stoi(token) - 1];
+
+    getline(ss, token, ',');  // Name
+    pets[counter]->setName(token);
+
+    getline(ss, token, ',');  // Age
+    pets[counter]->setAge(stoi(token));
+
+    getline(ss, token, ',');  // Food Value
+    pets[counter]->setFoodValue(stoi(token));
+
+    getline(ss, token, ',');  // Fun Value
+    pets[counter]->setFunValue(stoi(token));
+
+    counter++;  // Increment pets[].
+    currentPets++;
   }
 
   file.close();
@@ -310,8 +341,11 @@ void viewPets(Animal* pets[]) {
     cout << "You have no pets!" << endl << endl;
   else {
     cout << "You have the following pets:" << endl;
-    for (int i = 0; i < currentPets; i++)
+    for (int i = 0; i < currentPets; i++) {
       cout << pets[i]->getSpecies() << " - " << pets[i]->getName() << endl;
+      cout << "   Food: " << pets[i]->getFoodValue()
+           << " / 100     Fun: " << pets[i]->getFunValue() << " / 100" << endl;
+    }
     // Uncomment once ready to implement a Happiness and Hunger bar:
     // cout << pets[i].getAnimalName() << " - " << pets[i].getName() << "
     // Hunger: " << hungerBar << " Happiness: " << happinessBar << endl;
@@ -429,10 +463,11 @@ int main() {
   // Hold pet data and animal options respectively.
   Animal** pets = new Animal*[MAX_PETS];
   Animal** petOptions = readAnimalOptions();
-
-  // Fills inventory from dataFile
+  // Static array of food ints.
   int inventory[3];
-  updateData(inventory);
+
+  // Fills inventory & pets[] from dataFile
+  loadData(pets, petOptions, inventory);
 
   cout << "Welcome to Sahar and Chris' pet simulator!" << endl << endl;
 
