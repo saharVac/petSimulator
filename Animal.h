@@ -37,6 +37,7 @@ class Animal {
 
   string getName();
   string getSpecies();
+  int getAge();
   int getFunValue();
   int getFunThreshold();
   int getFunDecayTime();

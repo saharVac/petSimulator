@@ -19,14 +19,15 @@ const int NUM_ANIMAL_OPTIONS = 15;  // Marks the total number of animal types.
 
 #pragma region  // Function Declarations
 void loadData(Animal**, Animal**, int*);
+void saveData(Animal**, Animal**, int*);
 Animal** readAnimalOptions();
-void actionMenu(Animal**, Animal**, int[]);
+void actionMenu(Animal**, Animal**, int*);
 void addPet(Animal**, Animal**);
 void removePet(Animal**);
 void viewPets(Animal**);
-void feedPets(Animal**, int[]);
+void feedPets(Animal**, int*);
 void playPets(Animal**);
-void quitProgram(Animal**, Animal**);
+void quitProgram(Animal**, Animal**, int*);
 void viewInventory(int*);
 void resupplyInventory(int*);
 #pragma endregion
@@ -39,7 +40,7 @@ void loadData(Animal* pets[], Animal* petOptions[], int* inventory) {
   // Protection if file doesn't exist.
   ifstream file("dataFile.txt");
   if (!file) {
-    cerr << "Error opening selectionOptions.txt" << endl;
+    cerr << "Load failed. Error opening dataFile.txt." << endl;
   }
 
   string line;
@@ -89,6 +90,30 @@ void loadData(Animal* pets[], Animal* petOptions[], int* inventory) {
     currentPets++;
   }
 
+  file.close();
+}
+
+// @brief Writes data to file to set pets, inventory, etc.
+// @param pets Dynamic array of Animal objects.
+// @param petOptions Dynamic array of Animal object options.
+// @param inventory Pointer to an array of ints.
+void saveData(Animal* pets[], Animal* petOptions[], int* inventory) {
+  // Protection if file doesn't exist.
+  ofstream file("dataFile.txt", ios::trunc);
+  file << "Inventory: carniFood herbiFood omniFood" << endl;
+  file << inventory[0] << "," << inventory[1] << "," << inventory[2] << endl;
+  file << "Time: ..." << endl;  // TODO - Change once time is done.
+  file << "// keeps track of time since last session / save." << endl;
+  file << "Pets: species(int) name age foodValue funValue";
+
+  for (int i = 0; i < currentPets; i++) {
+    for (int j = 0; j < NUM_ANIMAL_OPTIONS; j++) {
+      if (petOptions[j]->getSpecies() == pets[i]->getSpecies())
+        file << endl
+             << j + 1 << "," << pets[i]->getName() << "," << pets[i]->getAge()
+             << "," << pets[i]->getFoodValue() << "," << pets[i]->getFunValue();
+    }
+  }
   file.close();
 }
 
@@ -193,7 +218,7 @@ void actionMenu(Animal* pets[], Animal* petOptions[], int inventory[]) {
     else if (choice == "P" || choice == "PLAY" || choice == "PLAY WITH PET")
       playPets(pets);
     else if (choice == "Q" || choice == "QUIT")
-      quitProgram(pets, petOptions);
+      quitProgram(pets, petOptions, inventory);
     else
       cout << "Invalid Response. Please input one of the following options:"
            << endl;
@@ -451,7 +476,9 @@ void playPets(Animal* pets[]) {
 // @brief Deallocates the dynamic arrays and quits the program.
 // @param pets Dynamic array of Animal objects.
 // @param petOptions Dynamic array of Animal object options.
-void quitProgram(Animal* pets[], Animal* petOptions[]) {
+// @param inventory Array of food amounts.
+void quitProgram(Animal* pets[], Animal* petOptions[], int inventory[]) {
+  saveData(pets, petOptions, inventory);
   delete[] pets;
   delete[] petOptions;
   cout << endl << "Goodbye!" << endl;

@@ -39,6 +39,7 @@ void Animal::setDiet(string diet) { this->diet = diet; }
 
 string Animal::getName() { return name; }
 string Animal::getSpecies() { return species; }
+int Animal::getAge() { return age; }
 int Animal::getFunValue() { return funValue; }
 int Animal::getFunThreshold() { return funThreshold; }
 int Animal::getFunDecayTime() { return funDecayTime; }
