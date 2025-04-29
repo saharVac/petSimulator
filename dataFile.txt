@@ -1,5 +1,5 @@
 Inventory: carniFood herbiFood omniFood
-15,10,4
+5,5,5
 Time: ...
 // keeps track of time since last session / save.
 Pets: species(int) name age foodValue funValue
